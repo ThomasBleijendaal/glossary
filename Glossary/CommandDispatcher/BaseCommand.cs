@@ -1,0 +1,7 @@
+﻿namespace CommandDispatcher
+{
+    class BaseCommand
+    {
+
+    }
+}
