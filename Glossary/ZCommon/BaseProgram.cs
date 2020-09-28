@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,7 +25,7 @@ namespace ZCommon
 
             await app.Run();
 
-            Console.WriteLine("Press enter to exit");
+            Console.WriteLine("Press enter to continue");
             Console.ReadLine();
         }
 

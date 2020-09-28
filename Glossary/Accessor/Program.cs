@@ -2,6 +2,9 @@
  * An accessor is a resolver type object that resolves a piece of information
  * and caches it for so it can be accessed easily without repetitive cost.
  * Due to the caching the thread-safety is a point of attention.
+ * 
+ * The amount of work the accessor does upon accessing can be substantial 
+ * and is, of course, cached.
  */
 
 using System;

@@ -3,6 +3,7 @@
  * For example, it describes an entity correctly without containing more than
  * it's id and type. Its easily serializable and could be used in an API.
  * 
+ * The descriptor should remain small.
  * */
 
 using System;

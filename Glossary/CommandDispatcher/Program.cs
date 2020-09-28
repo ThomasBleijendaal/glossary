@@ -7,6 +7,8 @@
  * 
  * In this example the command handlers are bound to a type of dispatcher, to prevent that all
  * command handlers are resolved by the DI to all dispatchers.
+ * 
+ * The complexity and size of each command handler can be substantial. 
  */
 
 using System;
