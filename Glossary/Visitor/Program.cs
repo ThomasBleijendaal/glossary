@@ -1,63 +1,49 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿/**
+ * A visitor is a class that contains logic to process elements which allow the visitor
+ * to visit. This seperates the logic and the data.
+ */
+
+using System;
+using System.Threading.Tasks;
+using ZCommon;
 
 namespace Visitor
 {
-    class Program
+    public class Program : BaseProgram
     {
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-        }
-    }
-
-    public interface ITreeElement
-    {
-        string Name { get; set; }
-
-        int Size { get; set; }
-
-        ITreeElement Parent { get; }
-
-        IEnumerable<ITreeElement> Children { get; }
-
-        void Accept(ITreeElementVisitor visitor);
-    }
-
-    public class TreeElement : ITreeElement
-    {
-        public string Name { get; set; }
-        
-        public int Size { get; set; }
-
-        public ITreeElement Parent { get; }
-        
-        public IEnumerable<ITreeElement> Children { get; }
-
-        public void Accept(ITreeElementVisitor visitor)
-        {
-
-        }
-    }
-
-    public interface ITreeElementVisitor
-    {
-        void PrintFolder(ITreeElement element);
-
-        void PrintFile(ITreeElement element);
-    }
-
-    public class TreePrinter : ITreeElementVisitor
-    {
-        public void PrintFile(ITreeElement element)
-        {
-            Console.WriteLine($"File: {element.Name} - {element.Size} bytes");
+            await Init<Program, VisitorApp>();
         }
 
-        public void PrintFolder(ITreeElement element)
+        public class VisitorApp : BaseApp
         {
-            Console.WriteLine($"Folder: {element.Name}");
+            public override Task Run()
+            {
+                var treeElements =
+                new Folder("Root", 0,
+                    new Folder("Folder 1", 0,
+                        new File("File 1", 12),
+                        new File("File 2", 34)
+                    ),
+                    new Folder("Folder 2", 0,
+                        new Folder("Folder 3", 0,
+                            new File("File 3", 56),
+                            new File("File 4", 78)
+                        )
+                    )
+                );
+
+                var printer = new TreePrinter();
+                var accumulator = new TreeAccumulator();
+
+                treeElements.Accept(printer);
+                treeElements.Accept(accumulator);
+
+                Console.WriteLine($"Total size: {accumulator.Size} B");
+
+                return Task.CompletedTask;
+            }
         }
     }
 }
