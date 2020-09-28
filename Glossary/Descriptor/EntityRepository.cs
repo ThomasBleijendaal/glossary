@@ -2,7 +2,7 @@
 
 namespace Descriptor
 {
-    class EntityRepository
+    public class EntityRepository
     {
         public Task<Entity> GetEntityByDescriptor(EntityDescriptor entityDescriptor)
         {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace CommandDispatcher
 {
-    class ExampleCommandDispatcher : IExampleCommandDispatcher
+    public class ExampleCommandDispatcher : IExampleCommandDispatcher
     {
         private readonly IEnumerable<ICommandHandler<IExampleCommandDispatcher>> _handlers;
 

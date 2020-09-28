@@ -1,6 +1,6 @@
 ﻿namespace CommandDispatcher
 {
-    class Result1 : BaseResult
+    public class Result1 : BaseResult
     {
 
     }

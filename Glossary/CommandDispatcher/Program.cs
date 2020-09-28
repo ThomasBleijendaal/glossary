@@ -12,41 +12,37 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using ZCommon;
 
 namespace CommandDispatcher
 {
-    class Program
+    public class Program : BaseProgram
     {
-        static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var services = new ServiceCollection();
+            await Init<Program, CommandDispatcherApp>();
+        }
 
+        protected override void Startup(ServiceCollection services)
+        {
             services.AddTransient<ICommandHandler<IExampleCommandDispatcher>, CommandA1Handler>();
             services.AddTransient<ICommandHandler<IExampleCommandDispatcher>, CommandA2Handler>();
             services.AddTransient<ICommandHandler<IExampleCommandDispatcher>, CommandB1Handler>();
             services.AddTransient<ICommandHandler<IExampleCommandDispatcher>, CommandB2Handler>();
 
             services.AddTransient<IExampleCommandDispatcher, ExampleCommandDispatcher>();
-
-            services.AddSingleton<ExampleProgram>();
-
-            var serviceProvider = services.BuildServiceProvider();
-
-            var program = serviceProvider.GetRequiredService<ExampleProgram>();
-
-            await program.Main();
         }
 
-        class ExampleProgram
+        public class CommandDispatcherApp : BaseApp
         {
             private readonly IExampleCommandDispatcher _exampleCommandDispatcher;
 
-            public ExampleProgram(IExampleCommandDispatcher exampleCommandDispatcher)
+            public CommandDispatcherApp(IExampleCommandDispatcher exampleCommandDispatcher)
             {
                 _exampleCommandDispatcher = exampleCommandDispatcher;
             }
 
-            public async Task Main()
+            public override async Task Run()
             {
                 var commandA = new CommandA();
                 var commandB = new CommandB();

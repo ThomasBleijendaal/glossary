@@ -2,7 +2,7 @@
 
 namespace Descriptor
 {
-    class RandomService
+    public class RandomService
     {
         public Task SomeRandomAction(EntityDescriptor entityDescriptor)
         {

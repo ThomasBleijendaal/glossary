@@ -1,6 +1,6 @@
 ﻿namespace CommandDispatcher
 {
-    interface IExampleCommandDispatcher : ICommandDispatcher<BaseCommand, BaseResult>
+    public interface IExampleCommandDispatcher : ICommandDispatcher<BaseCommand, BaseResult>
     {
 
     }

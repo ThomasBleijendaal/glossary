@@ -2,7 +2,7 @@
 
 namespace CommandDispatcher
 {
-    class CommandA2Handler : ICommandHandler<CommandA, Result2>
+    public class CommandA2Handler : ICommandHandler<CommandA, Result2>
     {
         public Task<Result2> Handle(CommandA command)
         {

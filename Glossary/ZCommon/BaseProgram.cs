@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ZCommon
 {
-    public class BaseProgram<TBaseApp>
-        where TBaseApp : BaseApp
+    public class BaseProgram
     {
-        internal static async Task Main(string [] args)
+        public static async Task Init<TInit, TApp>()
+            where TApp : BaseApp
         {
             var services = new ServiceCollection();
 
-            var program = (BaseProgram<TBaseApp>)Activator.CreateInstance(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            var program = (BaseProgram)Activator.CreateInstance(typeof(TInit));
+
+            services.AddTransient<TApp>();
 
             program.Startup(services);
 
@@ -19,19 +22,17 @@ namespace ZCommon
 
             using var scope = serviceProvider.CreateScope();
 
-            var app = scope.ServiceProvider.GetRequiredService<TBaseApp>();
+            var app = scope.ServiceProvider.GetRequiredService<TApp>();
 
             await app.Run();
+
+            Console.WriteLine("Press enter to exit");
+            Console.ReadLine();
         }
 
-        protected virtual void Startup(ServiceCollection services) { 
-            
+        protected virtual void Startup(ServiceCollection services)
+        {
+
         }
     }
-
-    public abstract class BaseApp
-    {
-        public abstract Task Run();
-    }
-
 }

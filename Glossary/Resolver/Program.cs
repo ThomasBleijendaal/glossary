@@ -3,51 +3,18 @@
  * everwhere it's needed. A resolver fetches the data everytime its requested and will not
  * cache it.
  */
-using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using ZCommon;
 
 namespace Resolver
 {
-    public interface IAccessTokenResolver
+    public class Program : BaseProgram
     {
-        string AccessToken { get; }
-    }
-
-    public class AccessTokenResolver : IAccessTokenResolver
-    {
-        // usually implemented as _httpContextAccessor.HttpContext.Headers["Authorization"].Replace("Bearer ", "");
-        public string AccessToken => "some token";
-    }
-
-    public interface ISomeService
-    {
-        void SomeMethodRequiringAccessToken();
-    }
-
-    public class SomeService : ISomeService
-    {
-        private readonly IAccessTokenResolver _accessTokenResolver;
-
-        public SomeService(IAccessTokenResolver accessTokenResolver)
+        public static async Task Main(string[] args)
         {
-            _accessTokenResolver = accessTokenResolver;
+            await Init<Program, ResolverApp>();
         }
-
-        public void SomeMethodRequiringAccessToken()
-        {
-            var token = _accessTokenResolver.AccessToken;
-
-            Console.Write(token);
-
-            // do stuff with it.
-        }
-    }
-
-    public class Program : BaseProgram<Program.ResolverApp>
-    {
-        private static IAccessTokenResolver _accessTokenResolver = new AccessTokenResolver();
 
         protected override void Startup(ServiceCollection services)
         {
@@ -68,6 +35,7 @@ namespace Resolver
             {
                 _someService.SomeMethodRequiringAccessToken();
 
+                return Task.CompletedTask;
             }
         }
     }

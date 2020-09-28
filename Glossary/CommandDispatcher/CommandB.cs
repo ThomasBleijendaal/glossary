@@ -1,6 +1,6 @@
 ﻿namespace CommandDispatcher
 {
-    class CommandB : BaseCommand
+    public class CommandB : BaseCommand
     {
 
     }

@@ -7,26 +7,49 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using ZCommon;
 
 namespace Descriptor
 {
-    class Program
+    public class Program : BaseProgram
     {
-        static RandomService _service = new RandomService();
-        static EntityRepository _repository = new EntityRepository();
-
-        static async Task Main(string[] args)
+        public static async Task Main(string[] args )
         {
-            // gets the descriptor from some process or API
-            var descriptor = new EntityDescriptor { Id = Guid.NewGuid(), EntityType = typeof(Entity) };
+            await Init<Program, DescriptorApp>();
+        }
 
-            // uses the descriptor to fetch the real entity
-            var entity = await _repository.GetEntityByDescriptor(descriptor);
+        protected override void Startup(ServiceCollection services)
+        {
+            services.AddSingleton<RandomService>();
+            services.AddSingleton<EntityRepository>();
 
-            Console.WriteLine(entity.Id);
+        }
 
-            // or uses the descriptor to do something with it, without passing the entire entity around
-            await _service.SomeRandomAction(descriptor);
+        public class DescriptorApp : BaseApp
+        {
+            private readonly EntityRepository _repository;
+            private readonly RandomService _service;
+
+            public DescriptorApp(EntityRepository repository, RandomService service)
+            {
+                _repository = repository;
+                _service = service;
+            }
+
+            public override async Task Run()
+            {
+                // gets the descriptor from some process or API
+                var descriptor = new EntityDescriptor { Id = Guid.NewGuid(), EntityType = typeof(Entity) };
+
+                // uses the descriptor to fetch the real entity
+                var entity = await _repository.GetEntityByDescriptor(descriptor);
+
+                Console.WriteLine(entity.Id);
+
+                // or uses the descriptor to do something with it, without passing the entire entity around
+                await _service.SomeRandomAction(descriptor);
+            }
         }
     }
 }
