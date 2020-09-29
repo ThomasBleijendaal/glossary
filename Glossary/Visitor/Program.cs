@@ -1,6 +1,9 @@
 ﻿/**
  * A visitor is a class that contains logic to process elements which allow the visitor
  * to visit. This seperates the logic and the data.
+ * 
+ * Key point is that the element should accept a certain visitor and that the accept method
+ * should pick the correct method in the visitor.
  */
 
 using System;

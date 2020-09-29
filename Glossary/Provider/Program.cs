@@ -13,7 +13,6 @@ using ZCommon;
 
 namespace Provider
 {
-
     public class Program : BaseProgram
     {
         public static async Task Main(string[] args)
