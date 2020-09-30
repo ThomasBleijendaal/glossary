@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Repository
 {
-    public class CompanyHierarchySpecification : ISpecification<Company, CompanyHierarchyModel>
+    public class CompanyHierarchySpecification : ISortableSpecification<Company, CompanyHierarchyModel>
     {
         public Expression<Func<Company, bool>> Criteria => x => x.Companies.Any();
 
@@ -25,6 +25,10 @@ namespace Repository
                     Name = sub2Company.Name
                 })
             })
+        };
+
+        IEnumerable<Sort<Company>> ISortableSpecification<Company, CompanyHierarchyModel>.KeySelectors => new[] {
+            new Sort<Company> { KeySelector = x => x.Id, SortingDirection = SortingDirection.Descending }
         };
     }
 }
