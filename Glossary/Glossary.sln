@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Options", "Options\Options.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pipeline", "Pipeline\Pipeline.csproj", "{C0787F4B-89F7-4432-928F-98DB6097453A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{71897D9C-07BF-4341-A630-FBBE3FF53801}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{71897D9C-07BF-4341-A630-FBBE3FF53801}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS", "CQRS\CQRS.csproj", "{198540B6-FE3E-4FB2-9916-4161EB9D7885}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{71897D9C-07BF-4341-A630-FBBE3FF53801}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71897D9C-07BF-4341-A630-FBBE3FF53801}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71897D9C-07BF-4341-A630-FBBE3FF53801}.Release|Any CPU.Build.0 = Release|Any CPU
+		{198540B6-FE3E-4FB2-9916-4161EB9D7885}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{198540B6-FE3E-4FB2-9916-4161EB9D7885}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{198540B6-FE3E-4FB2-9916-4161EB9D7885}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{198540B6-FE3E-4FB2-9916-4161EB9D7885}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -47,17 +47,17 @@ namespace Repository
 
         private IQueryable<TEntity> ApplySorting<TSpecModel>(IQueryable<TEntity> query, ISortableSpecification<TEntity, TSpecModel> specification)
         {
-            if (!specification.KeySelectors.Any())
+            if (!specification.SortingInstructions.Any())
             {
                 return query;
             }
 
-            var firstKeySelector = specification.KeySelectors.First();
+            var firstKeySelector = specification.SortingInstructions.First();
             var orderedQuery = firstKeySelector.SortingDirection == SortingDirection.Ascending
                 ? query.OrderBy(firstKeySelector.KeySelector)
                 : query.OrderByDescending(firstKeySelector.KeySelector);
 
-            return specification.KeySelectors
+            return specification.SortingInstructions
                 .Skip(1)
                 .Aggregate(
                     orderedQuery,

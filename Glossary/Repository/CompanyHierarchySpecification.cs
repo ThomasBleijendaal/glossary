@@ -27,7 +27,7 @@ namespace Repository
             })
         };
 
-        IEnumerable<Sort<Company>> ISortableSpecification<Company, CompanyHierarchyModel>.KeySelectors => new[] {
+        IEnumerable<Sort<Company>> ISortableSpecification<Company, CompanyHierarchyModel>.SortingInstructions => new[] {
             new Sort<Company> { KeySelector = x => x.Id, SortingDirection = SortingDirection.Descending }
         };
     }
