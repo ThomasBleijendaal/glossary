@@ -1,4 +1,19 @@
-﻿using System;
+﻿/**
+* Command and Query Responsibility Separation aims for separating getting data from storing data
+* from a data store. Because the read and write responsibilities are handled by different classes
+* and objects, the data store responsibile for giving data and storing data can also be different.
+* It's possible to store data in a sql server, and read data from a document store. 
+* 
+* The read repository only uses specifications to fetch data, either one entity or a list. The read repository
+* could forward these speicifications to a cache service for local caching, or a memory store nearby.
+* 
+* The write repository supports creation, mutation and deletion. These operations are specified by the
+* service wrapping the repository, and are first posted to a command handler. That handler can either
+* directly forward it to the repository, or post it to a queue and have it processed out-of-process. That
+* out-of-process processing can refresh or revoke the cache that the read repository uses.
+*/
+    
+using System;
 using System.Threading.Tasks;
 using CQRS.Commands;
 using CQRS.Handlers;
@@ -11,28 +26,6 @@ using ZCommon;
 
 namespace CQRS
 {
-    /**
-     * Command and Query Responsibility Separation aims for separating getting data from storing data
-     * from a data store. Because the read and write responsibilities are handled by different classes
-     * and objects, the data store responsibile for giving data and storing data can also be different.
-     * It's possible to store data in a sql server, and read data from a document store. 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * must contain:
-     * - cached reads
-     * - command handler style writing
-     * 
-     * - queued commands
-     * 
-     * - give like
-     * - post comment
-     * - save new post
-     */
-
     public class Program : BaseProgram
     {
         public const string PartitionKey = "1";
