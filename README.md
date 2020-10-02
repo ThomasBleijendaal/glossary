@@ -13,4 +13,4 @@ This is a personal glossary of patterns I've used and want to extract the essenc
 * Factory 
 * CommandDispatcher
 * Repository
-* CQRS
+* CQRS (+ CQRS.CommandProcessor)
