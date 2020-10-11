@@ -75,14 +75,14 @@ namespace CQRS.Repositories
             }
 
             var firstKeySelector = specification.SortingInstructions.First();
-            if (!(firstKeySelector.KeySelector is ParameterExpression parameter))
+            if (!(firstKeySelector.KeySelector.Body is MemberExpression parameter))
             {
-                throw new InvalidOperationException("Invalid key selector in sort.");
+                throw new InvalidOperationException("Invalid key selector in sort (Must be member expression).");
             }
 
             var orderedQuery = firstKeySelector.SortingDirection == SortingDirection.Ascending
-                ? query.OrderBy(parameter.Name)
-                : query.OrderByDesc(parameter.Name);
+                ? query.OrderBy(parameter.Member.Name)
+                : query.OrderByDesc(parameter.Member.Name);
 
             return orderedQuery;
         }

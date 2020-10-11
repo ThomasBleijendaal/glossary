@@ -27,7 +27,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS", "CQRS\CQRS.csproj", "{198540B6-FE3E-4FB2-9916-4161EB9D7885}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRS.CommandProcessor", "CQRS.CommandProcessor\CQRS.CommandProcessor.csproj", "{9B91752D-C553-4C6E-A6C2-BB95867E822F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS.CommandProcessor", "CQRS.CommandProcessor\CQRS.CommandProcessor.csproj", "{9B91752D-C553-4C6E-A6C2-BB95867E822F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{62A17AD3-8B2D-43F0-8ACD-3A0900210639}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EFDapperExample", "EFDapperExample", "{AAF1DD76-2ED7-45DD-8036-FCBDF5A02ED9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFDapper", "_examples\EFDapperExample\EFDapper\EFDapper.csproj", "{C386E6AB-9E6D-404F-ABB6-C43B1E1084C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFDapper.Repositories", "_examples\EFDapperExample\EFDapper.Repositories\EFDapper.Repositories.csproj", "{F69437D9-BE51-4778-A249-81332DF8709F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFDapper.Core", "_examples\EFDapperExample\EFDapper.Core\EFDapper.Core.csproj", "{9E783657-C337-4A07-B361-D2DE09A6D088}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,9 +97,27 @@ Global
 		{9B91752D-C553-4C6E-A6C2-BB95867E822F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B91752D-C553-4C6E-A6C2-BB95867E822F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B91752D-C553-4C6E-A6C2-BB95867E822F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C386E6AB-9E6D-404F-ABB6-C43B1E1084C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C386E6AB-9E6D-404F-ABB6-C43B1E1084C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C386E6AB-9E6D-404F-ABB6-C43B1E1084C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C386E6AB-9E6D-404F-ABB6-C43B1E1084C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F69437D9-BE51-4778-A249-81332DF8709F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F69437D9-BE51-4778-A249-81332DF8709F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F69437D9-BE51-4778-A249-81332DF8709F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F69437D9-BE51-4778-A249-81332DF8709F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E783657-C337-4A07-B361-D2DE09A6D088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E783657-C337-4A07-B361-D2DE09A6D088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E783657-C337-4A07-B361-D2DE09A6D088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E783657-C337-4A07-B361-D2DE09A6D088}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AAF1DD76-2ED7-45DD-8036-FCBDF5A02ED9} = {62A17AD3-8B2D-43F0-8ACD-3A0900210639}
+		{C386E6AB-9E6D-404F-ABB6-C43B1E1084C6} = {AAF1DD76-2ED7-45DD-8036-FCBDF5A02ED9}
+		{F69437D9-BE51-4778-A249-81332DF8709F} = {AAF1DD76-2ED7-45DD-8036-FCBDF5A02ED9}
+		{9E783657-C337-4A07-B361-D2DE09A6D088} = {AAF1DD76-2ED7-45DD-8036-FCBDF5A02ED9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E10FF8C4-3CBD-420F-8E45-20D128C142F0}
