@@ -86,8 +86,7 @@ namespace EFDapper.Repositories.Repositories
             {
                 if (querySpecification.SplitQuery)
                 {
-                    var projection = specification.Projection.Compile();
-                    return projection(await query.AsSplitQuery().FirstOrDefaultAsync());
+                    return await query.AsSplitQuery().Select(specification.Projection).FirstOrDefaultAsync();
                 }
                 else
                 {
@@ -106,8 +105,7 @@ namespace EFDapper.Repositories.Repositories
             {
                 if (querySpecification.SplitQuery)
                 {
-                    var projection = specification.Projection.Compile();
-                    return (await query.AsSplitQuery().ToArrayAsync()).Select(projection).ToList();
+                    return await query.AsSplitQuery().Select(specification.Projection).ToListAsync();
                 }
                 else
                 {

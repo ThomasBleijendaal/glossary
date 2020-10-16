@@ -40,6 +40,6 @@ namespace EFDapper.Core.Specifications
                 SortingDirection = SortingDirection.Ascending }
         };
 
-        public bool SplitQuery => true;
+        public bool SplitQuery => false;
     }
 }
