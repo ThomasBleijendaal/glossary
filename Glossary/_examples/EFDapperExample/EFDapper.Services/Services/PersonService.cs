@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EFDapper.Core.Abstractions;
 using EFDapper.Core.Models;
-using EFDapper.Core.Operations;
-using EFDapper.Core.Specifications;
 using EFDapper.Repositories.Abstractions.Repositories;
 using EFDapper.Repositories.Entities;
+using EFDapper.Repositories.Operations;
+using EFDapper.Repositories.Specifications;
+using EFDapper.Services.Abstractions;
 
-namespace EFDapper.Core.Services
+namespace EFDapper.Services.Services
 {
     public class PersonService : IPersonService
     {

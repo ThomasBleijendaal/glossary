@@ -5,8 +5,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\EFDapper.Repositories\EFDapper.Repositories.csproj" />
-  </ItemGroup>
-
 </Project>

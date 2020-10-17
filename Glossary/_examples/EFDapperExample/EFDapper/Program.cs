@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EFDapper.Core.Abstractions;
-using EFDapper.Core.Services;
 using EFDapper.Repositories;
 using EFDapper.Repositories.Abstractions.Repositories;
 using EFDapper.Repositories.Repositories;
+using EFDapper.Services.Abstractions;
+using EFDapper.Services.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

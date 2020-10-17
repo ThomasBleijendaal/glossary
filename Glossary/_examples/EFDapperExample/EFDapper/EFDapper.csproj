@@ -10,8 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EFDapper.Core\EFDapper.Core.csproj" />
-    <ProjectReference Include="..\EFDapper.Repositories\EFDapper.Repositories.csproj" />
+    <ProjectReference Include="..\EFDapper.Services\EFDapper.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using EFDapper.Repositories.Abstractions.Operations;
 using EFDapper.Repositories.Entities;
 
-namespace EFDapper.Core.Operations
+namespace EFDapper.Repositories.Operations
 {
     public class UpdateNameOperation : ISqlOperation<Person>
     {

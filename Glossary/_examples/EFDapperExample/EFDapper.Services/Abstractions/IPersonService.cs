@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using EFDapper.Core.Models;
 
-namespace EFDapper.Core.Abstractions
+namespace EFDapper.Services.Abstractions
 {
     public interface IPersonService
     {

@@ -1,7 +1,7 @@
 ﻿using EFDapper.Core.Models;
 using EFDapper.Repositories.Abstractions.Specifications;
 
-namespace EFDapper.Core.Specifications
+namespace EFDapper.Repositories.Specifications
 {
     public class BasicPeopleViaSqlSpecification : ISqlSpecification<BasicPersonModel>
     {

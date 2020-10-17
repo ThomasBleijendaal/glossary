@@ -8,7 +8,7 @@ using EFDapper.Repositories.Entities;
 using EFDapper.Repositories.Enums;
 using EFDapper.Repositories.Models;
 
-namespace EFDapper.Core.Specifications
+namespace EFDapper.Repositories.Specifications
 {
     public class AllPeopleViaExpressionSpecification : IQueryExpressionSpecification<Person, PersonModel>
     {

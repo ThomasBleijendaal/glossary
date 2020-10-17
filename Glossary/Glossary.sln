@@ -37,7 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFDapper", "_examples\EFDap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFDapper.Repositories", "_examples\EFDapperExample\EFDapper.Repositories\EFDapper.Repositories.csproj", "{F69437D9-BE51-4778-A249-81332DF8709F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFDapper.Core", "_examples\EFDapperExample\EFDapper.Core\EFDapper.Core.csproj", "{9E783657-C337-4A07-B361-D2DE09A6D088}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFDapper.Core", "_examples\EFDapperExample\EFDapper.Core\EFDapper.Core.csproj", "{9E783657-C337-4A07-B361-D2DE09A6D088}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFDapper.Services", "_examples\EFDapperExample\EFDapper.Services\EFDapper.Services.csproj", "{9D2726CD-9939-4EB0-A027-AF4032426385}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,6 +111,10 @@ Global
 		{9E783657-C337-4A07-B361-D2DE09A6D088}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E783657-C337-4A07-B361-D2DE09A6D088}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E783657-C337-4A07-B361-D2DE09A6D088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D2726CD-9939-4EB0-A027-AF4032426385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D2726CD-9939-4EB0-A027-AF4032426385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D2726CD-9939-4EB0-A027-AF4032426385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D2726CD-9939-4EB0-A027-AF4032426385}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +124,7 @@ Global
 		{C386E6AB-9E6D-404F-ABB6-C43B1E1084C6} = {AAF1DD76-2ED7-45DD-8036-FCBDF5A02ED9}
 		{F69437D9-BE51-4778-A249-81332DF8709F} = {AAF1DD76-2ED7-45DD-8036-FCBDF5A02ED9}
 		{9E783657-C337-4A07-B361-D2DE09A6D088} = {AAF1DD76-2ED7-45DD-8036-FCBDF5A02ED9}
+		{9D2726CD-9939-4EB0-A027-AF4032426385} = {AAF1DD76-2ED7-45DD-8036-FCBDF5A02ED9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E10FF8C4-3CBD-420F-8E45-20D128C142F0}
