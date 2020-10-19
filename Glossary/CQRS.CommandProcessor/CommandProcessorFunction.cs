@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CQRS.Commands;
 using CQRS.Handlers;
@@ -10,35 +13,29 @@ namespace CQRS.CommandProcessor
 {
     public class CommandProcessorFunction
     {
-        private readonly ICommandHandler<AddCommentCommand> _addCommentHandler;
-        private readonly ICommandHandler<AddLikeCommand> _addLikeHandler;
+        private readonly IEnumerable<ICommandHandler> _commandHandlers;
 
-        public CommandProcessorFunction(
-            ICommandHandler<AddCommentCommand> addCommentHandler,
-            ICommandHandler<AddLikeCommand> addLikeHandler)
+        public CommandProcessorFunction(IEnumerable<ICommandHandler> commandHandlers)
         {
-            _addCommentHandler = addCommentHandler;
-            _addLikeHandler = addLikeHandler;
+            _commandHandlers = commandHandlers;
         }
 
         [FunctionName("CommandProcessorFunction")]
-        public async Task Run([QueueTrigger("command-queue", Connection = "")]string message, ILogger log)
+        public async Task Run([QueueTrigger("command-queue", Connection = "")] string message, ILogger log)
         {
             var command = JsonConvert.DeserializeObject<ICommand>(message, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
 
-            switch (command)
+            var type = command.GetType();
+            var handlerType = typeof(ICommandHandler<>).MakeGenericType(type);
+
+            var handler = _commandHandlers.FirstOrDefault(x => handlerType.IsAssignableFrom(x.GetType()));
+            if (handler == null)
             {
-                case AddCommentCommand addComment:
-                    await _addCommentHandler.HandleAsync(addComment);
-                    break;
-
-                case AddLikeCommand addLike:
-                    await _addLikeHandler.HandleAsync(addLike);
-                    break;
-
-                default:
-                    throw new InvalidOperationException("This command type should not be queued.");
+                throw new InvalidOperationException("This command type has no handler.");
             }
+
+            var method = handlerType.GetMethod(nameof(ICommandHandler<ICommand>.HandleAsync));
+            await (Task)method.Invoke(handler, new[] { command });
         }
     }
 }

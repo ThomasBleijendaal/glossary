@@ -1,5 +1,4 @@
-﻿using CQRS.Commands;
-using CQRS.Handlers;
+﻿using CQRS.Handlers;
 using CQRS.Repositories;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,8 +12,7 @@ namespace CQRS.CommandProcessor
         {
             builder.Services.AddTransient(typeof(IWriteRepository<>), typeof(WriteRepository<>));
 
-            builder.Services.AddTransient<ICommandHandler<AddCommentCommand>, BackgroundCommandHander>();
-            builder.Services.AddTransient<ICommandHandler<AddLikeCommand>, BackgroundCommandHander>();
+            builder.Services.AddTransient<ICommandHandler, BackgroundCommandHander>();
         }
     }
 }
