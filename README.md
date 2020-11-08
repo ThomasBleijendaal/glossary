@@ -12,5 +12,6 @@ This is a personal glossary of patterns I've used and want to extract the essenc
 * Visitor
 * Factory 
 * CommandDispatcher
+* Mediator
 * Repository
 * CQRS (+ CQRS.CommandProcessor)
