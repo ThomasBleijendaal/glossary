@@ -3,6 +3,9 @@
 * it mediates and manages. It allows its components to communicate with each other, without having them
 * be tightly coupled. Each component handles its own events, and then notifies the mediator about these,
 * so other the other components can handle these as well.
+* 
+* Due to the two way communication between the components and their mediator, normal DI of often more difficult
+* and more consideration should be put into it, especially when the components are stateful.
 */
 
 using System;
