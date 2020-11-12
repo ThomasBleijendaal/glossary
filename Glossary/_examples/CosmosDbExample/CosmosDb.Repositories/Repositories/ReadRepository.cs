@@ -19,21 +19,15 @@ namespace CosmosDb.Repositories.Repositories
         }
 
         public async Task<TModel?> GetFirstAsync<TModel>(ISpecification<TEntity, TModel> specification)
-        {
-            return await _mongoCollection
-                .Find(specification.Criteria)
-                .Project(specification.Projection)
-                .OrderBys(specification.SortingInstructions)
-                .FirstOrDefaultAsync();
-        }
+            => await ApplySpecification(specification).FirstOrDefaultAsync();
 
         public async Task<IReadOnlyList<TModel>> GetListAsync<TModel>(ISpecification<TEntity, TModel> specification)
-        {
-            return await _mongoCollection
+            => await ApplySpecification(specification).ToListAsync();
+
+        private IFindFluent<TEntity, TModel> ApplySpecification<TModel>(ISpecification<TEntity, TModel> specification)
+            => _mongoCollection
                 .Find(specification.Criteria)
                 .Project(specification.Projection)
-                .OrderBys(specification.SortingInstructions)
-                .ToListAsync();
-        }
+                .OrderBys(specification.SortingInstructions);
     }
 }

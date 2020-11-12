@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CosmosDb.Repositories.Abstractions;
 using CosmosDb.Repositories.Abstractions.Operations;
 using CosmosDb.Repositories.Abstractions.Repositories;
@@ -33,19 +32,12 @@ namespace CosmosDb.Repositories.Repositories
         }
 
         public async Task UpdateManyAsync(IUpdateOperation<TEntity> update)
-        {
-            var updateDefinitionBuilder = new UpdateDefinitionBuilder<TEntity>();
-            var updateDefinition = update.Mutation.Invoke(updateDefinitionBuilder);
-
-            await _mongoCollection.UpdateManyAsync(update.Criteria, updateDefinition);
-        }
+            => await _mongoCollection.UpdateManyAsync(update.Criteria, CreateUpdateDefinition(update));
 
         public async Task UpdateOneAsync(IUpdateOperation<TEntity> update)
-        {
-            var updateDefinitionBuilder = new UpdateDefinitionBuilder<TEntity>();
-            var updateDefinition = update.Mutation.Invoke(updateDefinitionBuilder);
+            => await _mongoCollection.UpdateOneAsync(update.Criteria, CreateUpdateDefinition(update));
 
-            await _mongoCollection.UpdateOneAsync(update.Criteria, updateDefinition);
-        }
+        private static UpdateDefinition<TEntity> CreateUpdateDefinition(IUpdateOperation<TEntity> update)
+            => update.Mutation.Invoke(new UpdateDefinitionBuilder<TEntity>());
     }
 }
