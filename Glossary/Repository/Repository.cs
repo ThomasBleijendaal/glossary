@@ -58,7 +58,7 @@ namespace Repository
             var updatedEntity = _mapper.Map(entity);
             var originalEntity = await _dbContext.Set<TEntity>().FindAsync(updatedEntity.Id) ?? throw new Exception("This should be a not found exception");
 
-            var mergedEntity = _mapper.Map(originalEntity, updatedEntity);
+            var mergedEntity = _mapper.Apply(originalEntity, updatedEntity);
 
             _dbContext.Set<TEntity>().Update(mergedEntity);
             await _dbContext.SaveChangesAsync();

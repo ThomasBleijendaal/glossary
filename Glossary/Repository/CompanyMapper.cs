@@ -12,7 +12,7 @@
             };
         }
 
-        public Company Map(Company orignalEntity, Company newEntity)
+        public Company Apply(Company orignalEntity, Company newEntity)
         {
             orignalEntity.Name = newEntity.Name;
             orignalEntity.ParentCompanyId = newEntity.ParentCompanyId;
