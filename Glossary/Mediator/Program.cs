@@ -1,11 +1,15 @@
 ﻿/**
 * A mediator is a central object tasked to handle all direct communications to and from the components
 * it mediates and manages. It allows its components to communicate with each other, without having them
-* be tightly coupled. Each component handles its own events, and then notifies the mediator about these,
-* so other the other components can handle these as well.
+* be tightly coupled.
 * 
 * Due to the two way communication between the components and their mediator, normal DI of often more difficult
 * and more consideration should be put into it, especially when the components are stateful.
+* 
+* This example allows each of the components to receive external events, just like normal services. This is
+* different in for example the MediatR package where external services can also use the mediator to do stuff.
+* In that case, the mediator is the central entry point to every interaction, and client code does not know or
+* care what object eventually handles the call.
 */
 
 using System;
