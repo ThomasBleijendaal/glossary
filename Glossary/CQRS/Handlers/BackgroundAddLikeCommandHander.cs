@@ -6,17 +6,15 @@ using CQRS.Repositories;
 
 namespace CQRS.Handlers
 {
-    // this handler executes these commands on the background 
-    // you can imagine that these handlers do more than just storing the data, they can refresh caches
+    // this handler executes the command on the background 
+    // you can imagine that these type of handlers do more than just storing the data, they can refresh caches
     // or post messages on some bus to inform services that these entities have changed and they need to
     // update their cache
-    public class BackgroundCommandHander :
-        ICommandHandler<AddLikeCommand>,
-        ICommandHandler<AddCommentCommand>
+    public class BackgroundAddLikeCommandHander : ICommandHandler<AddLikeCommand>
     {
         private readonly IWriteRepository<BlogPost> _repository;
 
-        public BackgroundCommandHander(IWriteRepository<BlogPost> repository)
+        public BackgroundAddLikeCommandHander(IWriteRepository<BlogPost> repository)
         {
             _repository = repository;
         }
@@ -25,12 +23,5 @@ namespace CQRS.Handlers
         {
             await _repository.UpdateSingleEntityAsync(new AddLikeOperation(command));
         }
-
-        public async Task HandleAsync(AddCommentCommand command)
-        {
-            await _repository.UpdateSingleEntityAsync(new AddCommentOperation(command));
-        }
-
     }
-
 }

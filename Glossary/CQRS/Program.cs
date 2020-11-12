@@ -49,12 +49,12 @@ namespace CQRS
             services.AddTransient<ICommandQueuingService, CommandQueuingService>();
 
             // These command handlers directly talk to the database, and execute the commands as they come in
-            services.AddTransient<ICommandHandler<CreateBlogPostCommand>, CommandHandler>();
-            services.AddTransient<ICommandHandler<DeleteBlogPostCommand>, CommandHandler>();
+            services.AddTransient<ICommandHandler<CreateBlogPostCommand>, CreateBlogPostCommandHandler>();
+            services.AddTransient<ICommandHandler<DeleteBlogPostCommand>, DeleteBlogPostCommandHandler>();
 
             // These command handlers post their commands to a queue, to allow for out-of-process handing
-            services.AddTransient<ICommandHandler<AddCommentCommand>, QueueCommandHandler>();
-            services.AddTransient<ICommandHandler<AddLikeCommand>, QueueCommandHandler>();
+            services.AddTransient<ICommandHandler<AddCommentCommand>, QueueCommandHandler<AddCommentCommand>>();
+            services.AddTransient<ICommandHandler<AddLikeCommand>, QueueCommandHandler<AddLikeCommand>>();
         }
 
         public class RepositoryCQRS : BaseApp

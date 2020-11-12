@@ -4,10 +4,8 @@ using CQRS.Services;
 
 namespace CQRS.Handlers
 {
-    public class QueueCommandHandler :
-        ICommandHandler<AddLikeCommand>,
-        ICommandHandler<AddCommentCommand>,
-        ICommandHandler<DeleteBlogPostCommand>
+    public class QueueCommandHandler<TCommand> : ICommandHandler<TCommand>
+        where TCommand : ICommand
     {
         private readonly ICommandQueuingService _commandQueuingService;
 
@@ -16,17 +14,7 @@ namespace CQRS.Handlers
             _commandQueuingService = commandQueuingService;
         }
 
-        public async Task HandleAsync(AddLikeCommand command)
-        {
-            await _commandQueuingService.QueueAsync(command);
-        }
-
-        public async Task HandleAsync(AddCommentCommand command)
-        {
-            await _commandQueuingService.QueueAsync(command);
-        }
-
-        public async Task HandleAsync(DeleteBlogPostCommand command)
+        public async Task HandleAsync(TCommand command)
         {
             await _commandQueuingService.QueueAsync(command);
         }

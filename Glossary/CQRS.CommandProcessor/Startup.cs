@@ -12,7 +12,8 @@ namespace CQRS.CommandProcessor
         {
             builder.Services.AddTransient(typeof(IWriteRepository<>), typeof(WriteRepository<>));
 
-            builder.Services.AddTransient<ICommandHandler, BackgroundCommandHander>();
+            builder.Services.AddTransient<ICommandHandler, BackgroundAddLikeCommandHander>();
+            builder.Services.AddTransient<ICommandHandler, BackgroundAddCommentCommandHander>();
         }
     }
 }
