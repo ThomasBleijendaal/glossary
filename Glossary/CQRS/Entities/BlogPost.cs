@@ -14,8 +14,8 @@ namespace CQRS.Entities
 
         [IgnoreProperty]
         public int Id { get => int.Parse(RowKey); set => RowKey = value.ToString(); }
-        public string Title { get; set; }
-        public string Content { get; set; }
+        public string Title { get; set; } = default!;
+        public string Content { get; set; } = default!;
         public int Likes { get; set; }
 
         [IgnoreProperty]

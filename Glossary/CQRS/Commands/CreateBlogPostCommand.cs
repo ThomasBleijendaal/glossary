@@ -6,8 +6,8 @@ namespace CQRS.Commands
     {
         public Guid CommandId { get; set; } = Guid.NewGuid();
 
-        public string Title { get; set; }
-        public string Content { get; set; }
+        public string Title { get; set; } = default!;
+        public string Content { get; set; } = default!;
         public DateTime PublishDate { get; set; } = DateTime.UtcNow;
 
         public int CreatedId { get; set; }

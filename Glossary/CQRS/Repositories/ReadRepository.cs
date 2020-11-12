@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
+using CQRS.Extensions;
 using CQRS.Specifications;
 using Microsoft.Azure.Cosmos.Table;
 
@@ -23,17 +22,13 @@ namespace CQRS.Repositories
             var table = await GetTable();
 
             var query = table.CreateQuery<TEntity>()
-                .Where(specification.Criteria);
-
-            //if (specification.SortingInstructions != null)
-            //{
-            //    query = ApplySorting(query, specification);
-            //}
+                .Where(specification.Criteria)
+                .OrderBy(specification.SortingInstructions);
 
             var data = query.FirstOrDefault();
 
             // async?
-            return specification.Projection.Compile().Invoke(data);
+            return specification.Projection.Invoke(data);
         }
 
         public async Task<IReadOnlyList<TModel>> GetListAsync<TModel>(ISpecification<TEntity, TModel> specification)
@@ -41,17 +36,13 @@ namespace CQRS.Repositories
             var table = await GetTable();
 
             var query = table.CreateQuery<TEntity>()
-                .Where(specification.Criteria);
-
-            //if (specification.SortingInstructions != null)
-            //{
-            //    query = ApplySorting(query, specification);
-            //}
+                .Where(specification.Criteria)
+                .OrderBy(specification.SortingInstructions);
 
             var data = query.ToList();
 
             // async?
-            return data.Select(specification.Projection.Compile()).ToList();
+            return data.Select(specification.Projection).ToList();
         }
 
         private async Task<CloudTable> GetTable()
@@ -61,30 +52,6 @@ namespace CQRS.Repositories
             await table.CreateIfNotExistsAsync();
 
             return table;
-        }
-
-        private IQueryable<TEntity> ApplySorting<TModel>(TableQuery<TEntity> query, ISpecification<TEntity, TModel> specification)
-        {
-            if (!specification.SortingInstructions.Any())
-            {
-                return query;
-            }
-            else if (specification.SortingInstructions.Count() > 1)
-            {
-                throw new InvalidOperationException("Only one sort is allowed.");
-            }
-
-            var firstKeySelector = specification.SortingInstructions.First();
-            if (!(firstKeySelector.KeySelector.Body is MemberExpression parameter))
-            {
-                throw new InvalidOperationException("Invalid key selector in sort (Must be member expression).");
-            }
-
-            var orderedQuery = firstKeySelector.SortingDirection == SortingDirection.Ascending
-                ? query.OrderBy(parameter.Member.Name)
-                : query.OrderByDesc(parameter.Member.Name);
-
-            return orderedQuery;
         }
     }
 }

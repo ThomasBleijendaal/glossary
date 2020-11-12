@@ -10,9 +10,7 @@ namespace CQRS.Specifications
     {
         public Expression<Func<BlogPost, bool>> Criteria => x => !x.Deleted;
 
-        public IEnumerable<string> Includes => new[] { nameof(BlogPost.Comments) };
-
-        public Expression<Func<BlogPost, BlogPostModel>> Projection => post => new BlogPostModel
+        public Func<BlogPost, BlogPostModel> Projection => post => new BlogPostModel
         {
             Comments = post.Comments.Count,
             Content = post.Content,
