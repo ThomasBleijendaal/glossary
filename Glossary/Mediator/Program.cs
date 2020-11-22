@@ -31,7 +31,7 @@ namespace Mediator
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IUserService, UserService>();
 
-            services.AddTransient<IUserOderMediator, UserOrderMediator>();
+            services.AddTransient<IUserOrderMediator, UserOrderMediator>();
         }
 
         public class MediatorApp : BaseApp

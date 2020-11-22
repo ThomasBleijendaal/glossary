@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Mediator
 {
-    public class UserOrderMediator : IUserOderMediator
+    public class UserOrderMediator : IUserOrderMediator
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly object _initializationLock = new object();
@@ -30,6 +30,11 @@ namespace Mediator
 
             lock (_initializationLock)
             {
+                if (_initialized)
+                {
+                    return;
+                }
+
                 _userService = _serviceProvider.GetRequiredService<IUserService>();
                 _orderService = _serviceProvider.GetRequiredService<IOrderService>();
 

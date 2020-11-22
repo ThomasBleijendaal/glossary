@@ -42,6 +42,10 @@ namespace Accessor
                     Task.Run(() => AsyncMethod("a")),
                     Task.Run(() => AsyncMethod("b")),
                     Task.Run(() => AsyncMethod("c")));
+
+                await Task.Delay(5000);
+
+                await AsyncMethodChain("configureAwait(true)");
             }
 
             public async Task AsyncMethod(string instanceName)
@@ -49,6 +53,13 @@ namespace Accessor
                 var service = _services.GetRequiredService<SomeService>();
 
                 await service.SomeMethodDependingOnAccessToken(instanceName);
+            }
+
+            public async Task AsyncMethodChain(string instanceName)
+            {
+                var service = _services.GetRequiredService<SomeService>();
+
+                await service.SomeMethodDependingOnAccessTokenWithConfigureAwaits(instanceName).ConfigureAwait(true);
             }
         }
     }

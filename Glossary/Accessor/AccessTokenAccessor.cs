@@ -5,7 +5,7 @@ namespace Accessor
 {
     public class AccessTokenAccessor : IAccessTokenAccessor
     {
-        private AsyncLocal<string> _localAccessToken = new AsyncLocal<string>();
+        private readonly AsyncLocal<string> _localAccessToken = new AsyncLocal<string>();
 
         public AccessTokenAccessor()
         {
@@ -16,8 +16,11 @@ namespace Accessor
         {
             get
             {
-                // do some logic to get and store the result of it
-                _localAccessToken.Value = Guid.NewGuid().ToString();
+                if (_localAccessToken.Value == null)
+                {
+                    // do some logic to get and store the result of it
+                    _localAccessToken.Value = Guid.NewGuid().ToString();
+                }
 
                 return _localAccessToken.Value;
             }

@@ -16,15 +16,38 @@ namespace Accessor
         {
             Console.WriteLine(instanceName);
 
-            await Task.Delay(new Random().Next(800, 1200));
-
-            var token = _accessTokenAccessor.AccessToken;
-
-            Console.WriteLine($"{instanceName} - 1 - {token}");
+            var token1 = _accessTokenAccessor.AccessToken;
 
             await Task.Delay(new Random().Next(800, 1200));
 
-            Console.WriteLine($"{instanceName} - 2 - {token}");
+            var token2 = _accessTokenAccessor.AccessToken;
+
+            Console.WriteLine($"{instanceName} - 1 - {token1} - {token2}");
+
+            await Task.Delay(new Random().Next(800, 1200));
+
+            var token3 = _accessTokenAccessor.AccessToken;
+
+            Console.WriteLine($"{instanceName} - 2 - {token3}");
+        }
+
+        public async Task SomeMethodDependingOnAccessTokenWithConfigureAwaits(string instanceName)
+        {
+            Console.WriteLine(instanceName);
+
+            var token1 = _accessTokenAccessor.AccessToken;
+
+            await Task.Delay(new Random().Next(800, 1200)).ConfigureAwait(true);
+
+            var token2 = _accessTokenAccessor.AccessToken;
+
+            Console.WriteLine($"{instanceName} - 1 - {token1} - {token2}");
+
+            await Task.Delay(new Random().Next(800, 1200)).ConfigureAwait(true);
+
+            var token3 = _accessTokenAccessor.AccessToken;
+
+            Console.WriteLine($"{instanceName} - 2 - {token3}");
         }
     }
 }

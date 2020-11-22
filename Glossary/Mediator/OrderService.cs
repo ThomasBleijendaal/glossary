@@ -5,9 +5,9 @@ namespace Mediator
 {
     public class OrderService : IOrderService, IMediatorComponent
     {
-        private readonly IUserOderMediator _mediator;
+        private readonly IUserOrderMediator _mediator;
 
-        public OrderService(IUserOderMediator mediator)
+        public OrderService(IUserOrderMediator mediator)
         {
             _mediator = mediator;
         }
