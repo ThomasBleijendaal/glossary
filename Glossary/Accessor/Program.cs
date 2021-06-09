@@ -5,6 +5,9 @@
  * 
  * The amount of work the accessor does upon accessing can be substantial 
  * and is, of course, cached.
+ * 
+ * The value of an accessor must not be copied to a private field or shared 
+ * between threads.
  */
 
 using System;
