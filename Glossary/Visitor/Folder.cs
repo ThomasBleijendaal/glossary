@@ -28,6 +28,11 @@ namespace Visitor
         public void Accept(ITreeElementVisitor visitor)
         {
             visitor.Visit(this);
+
+            foreach (var child in Children)
+            {
+                child.Accept(visitor);
+            }
         }
     }
 }

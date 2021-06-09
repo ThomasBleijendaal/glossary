@@ -6,10 +6,7 @@
 
         public void Visit(Folder element)
         {
-            foreach (var child in element.Children)
-            {
-                child.Accept(this);
-            }
+            
         }
 
         public void Visit(File element)

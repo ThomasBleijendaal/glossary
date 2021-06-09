@@ -12,11 +12,6 @@ namespace Visitor
         public void Visit(Folder element)
         {
             Console.WriteLine($"{Depth(element)} Folder: {element.Name}");
-
-            foreach (var child in element.Children)
-            {
-                child.Accept(this);
-            }
         }
 
         private string Depth(ITreeElement element)
