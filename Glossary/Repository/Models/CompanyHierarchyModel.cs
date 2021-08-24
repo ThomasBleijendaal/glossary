@@ -6,8 +6,8 @@ namespace Repository
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public IEnumerable<CompanyHierarchyModel> SubCompanies { get; set; }
+        public IEnumerable<CompanyHierarchyModel>? SubCompanies { get; set; }
     }
 }

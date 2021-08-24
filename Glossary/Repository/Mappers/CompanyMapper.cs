@@ -1,10 +1,10 @@
 ﻿namespace Repository
 {
-    public class CompanyMapper : IMapper<Company, BasicCompanyModel>
+    public class CompanyMapper : IMapper<CompanyEntity, BasicCompanyModel>
     {
-        public Company Map(BasicCompanyModel model)
+        public CompanyEntity Map(BasicCompanyModel model)
         {
-            return new Company
+            return new CompanyEntity
             {
                 Id = model.Id,
                 Name = model.Name,
@@ -12,14 +12,14 @@
             };
         }
 
-        public Company Apply(Company orignalEntity, Company newEntity)
+        public CompanyEntity Apply(CompanyEntity orignalEntity, CompanyEntity newEntity)
         {
             orignalEntity.Name = newEntity.Name;
             orignalEntity.ParentCompanyId = newEntity.ParentCompanyId;
             return orignalEntity;
         }
 
-        public BasicCompanyModel Map(Company entity)
+        public BasicCompanyModel Map(CompanyEntity entity)
         {
             return new BasicCompanyModel
             {

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Repository
 {
-    public class DetailedCompanySpecification : ISpecification<Company, DetailedCompanyModel>
+    public class DetailedCompanySpecification : ISpecification<CompanyEntity, DetailedCompanyModel>
     {
         private readonly int _id;
 
@@ -14,11 +14,11 @@ namespace Repository
             _id = id;
         }
 
-        public Expression<Func<Company, bool>> Criteria => x => x.Id == _id;
+        public Expression<Func<CompanyEntity, bool>> Criteria => x => x.Id == _id;
 
-        public IEnumerable<string> Includes => new[] { nameof(Company.Employees) };
+        public IEnumerable<string> Includes => new[] { nameof(CompanyEntity.Employees) };
 
-        public Expression<Func<Company, DetailedCompanyModel>> Projection => company => new DetailedCompanyModel
+        public Expression<Func<CompanyEntity, DetailedCompanyModel>> Projection => company => new DetailedCompanyModel
         {
             Id = company.Id,
             Name = company.Name,
@@ -27,7 +27,7 @@ namespace Repository
                 Id = company.ParentCompany.Id,
                 Name = company.ParentCompany.Name
             },
-            Employees = company.Employees.Select(x => new EmployeeModel
+            Employees = company.Employees.Select(x => new EmployeeEntity
             {
                 Id = x.Id,
                 Name = x.Name

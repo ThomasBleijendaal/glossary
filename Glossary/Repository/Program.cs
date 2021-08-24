@@ -12,7 +12,7 @@ namespace Repository
      * (EF Core, MongoDB) and putting it behind an interface. The repository is responsible for CRUD like interactions
      * with the data, as well as executing complex queries.
      * 
-     * A repository should never return it's entities, but should always convert them to a DTO type model.
+     * A repository should never return it's entities, but should always convert them to a model.
      * 
      * Since it's often more efficient to run certain queries and projections in the data store, instead of in-memory,
      * repositories have the tendency to become cluttered with lots of methods, doing the same thing slightly differently.
@@ -41,7 +41,7 @@ namespace Repository
             services.AddDbContext<ExampleDbContext>(config => config.UseInMemoryDatabase("example"));
 
             services.AddScoped<ICompanyRepository, CompanyRepository>();
-            services.AddScoped<IMapper<Company, BasicCompanyModel>, CompanyMapper>();
+            services.AddScoped<IMapper<CompanyEntity, BasicCompanyModel>, CompanyMapper>();
 
             services.AddScoped<ICompanyService, CompanyService>();
 
@@ -49,19 +49,19 @@ namespace Repository
             using var scope = sp.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<ExampleDbContext>();
 
-            dbContext.Companies.Add(new Company { Name = "Company 1" });
+            dbContext.Companies.Add(new CompanyEntity { Name = "Company 1" });
 
-            dbContext.Companies.Add(new Company { Name = "Company 1a", ParentCompanyId = 1 });
-            dbContext.Companies.Add(new Company { Name = "Company 1b", ParentCompanyId = 1 });
-            dbContext.Companies.Add(new Company { Name = "Company 1b1", ParentCompanyId = 3 });
+            dbContext.Companies.Add(new CompanyEntity { Name = "Company 1a", ParentCompanyId = 1 });
+            dbContext.Companies.Add(new CompanyEntity { Name = "Company 1b", ParentCompanyId = 1 });
+            dbContext.Companies.Add(new CompanyEntity { Name = "Company 1b1", ParentCompanyId = 3 });
 
-            dbContext.Employees.Add(new Employee { Name = "Employee 1", CompanyId = 1 });
-            dbContext.Employees.Add(new Employee { Name = "Employee 2", CompanyId = 1 });
-            dbContext.Employees.Add(new Employee { Name = "Employee 3", CompanyId = 2 });
-            dbContext.Employees.Add(new Employee { Name = "Employee 4", CompanyId = 3 });
-            dbContext.Employees.Add(new Employee { Name = "Employee 5", CompanyId = 4 });
-            dbContext.Employees.Add(new Employee { Name = "Employee 6", CompanyId = 4 });
-            dbContext.Employees.Add(new Employee { Name = "Employee 7", CompanyId = 4 });
+            dbContext.Employees.Add(new EmployeeEntity { Name = "Employee 1", CompanyId = 1 });
+            dbContext.Employees.Add(new EmployeeEntity { Name = "Employee 2", CompanyId = 1 });
+            dbContext.Employees.Add(new EmployeeEntity { Name = "Employee 3", CompanyId = 2 });
+            dbContext.Employees.Add(new EmployeeEntity { Name = "Employee 4", CompanyId = 3 });
+            dbContext.Employees.Add(new EmployeeEntity { Name = "Employee 5", CompanyId = 4 });
+            dbContext.Employees.Add(new EmployeeEntity { Name = "Employee 6", CompanyId = 4 });
+            dbContext.Employees.Add(new EmployeeEntity { Name = "Employee 7", CompanyId = 4 });
 
             dbContext.SaveChanges();
         }

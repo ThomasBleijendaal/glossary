@@ -10,11 +10,11 @@ namespace Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Company>().HasKey(x => x.Id);
-            modelBuilder.Entity<Employee>().HasKey(x => x.Id);
+            modelBuilder.Entity<CompanyEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<EmployeeEntity>().HasKey(x => x.Id);
         }
 
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<CompanyEntity> Companies { get; set; }
+        public DbSet<EmployeeEntity> Employees { get; set; }
     }
 }
