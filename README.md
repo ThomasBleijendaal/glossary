@@ -13,3 +13,7 @@
 * Mediator
 * Repository
 * CQRS (+ CQRS.CommandProcessor)
+
+## extra
+
+* Azure Functions Stateful Entities
