@@ -16,4 +16,4 @@
 
 ## extra
 
-* Azure Functions Stateful Entities
+* Azure Functions Durable Entities
