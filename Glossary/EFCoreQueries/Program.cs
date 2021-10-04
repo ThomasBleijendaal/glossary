@@ -17,7 +17,7 @@ namespace EFCoreQueries
             services.AddDbContext<AppDbContext>(
                 options => options
                     .UseLoggerFactory(MyLoggerFactory)
-                    //  D-2: .UseLazyLoadingProxies()
+                    // D-2: .UseLazyLoadingProxies()
                     .UseSqlServer("server=localhost\\sqlexpress;database=efquery;integrated security=true;"));
 
 
