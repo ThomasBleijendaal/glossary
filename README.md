@@ -17,3 +17,4 @@
 ## extra
 
 * Azure Functions Durable Entities
+* EF Query
