@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -108,6 +109,18 @@ namespace EFCoreQueries
                     foreach (var minion in emp1.Minions)
                     {
                         Console.WriteLine($"D: Minion {minion.Id}");
+                    }
+                }
+
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    using var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                    var projection = await context.Employees.Select(x => new { x.Id, ManagerName = x.Manager == null ? null : x.Manager.Name }).ToListAsync();
+
+                    foreach (var emp in projection)
+                    {
+                        Console.WriteLine($"E: Manager of Employee {emp.Id} is {emp.ManagerName}");
                     }
                 }
             }
