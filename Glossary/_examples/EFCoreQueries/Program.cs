@@ -18,7 +18,7 @@ namespace EFCoreQueries
             services.AddDbContext<AppDbContext>(
                 options => options
                     .UseLoggerFactory(MyLoggerFactory)
-                    // D-2: .UseLazyLoadingProxies()
+                    .UseLazyLoadingProxies()
                     .UseSqlServer("server=localhost\\sqlexpress;database=efquery;integrated security=true;"));
 
 
@@ -73,7 +73,7 @@ namespace EFCoreQueries
 
                     Console.WriteLine(emp1a.Company == null ? "B: Company of Employee 1 is null" : "Company of Employee 1 is not null");
 
-                    var emp1b = await context.Employees.Include(x => x.Company).FirstAsync(x => x.Id == 1);
+                    var emp1b = await context.Employees.Include(x => x.Company).AsSplitQuery().FirstAsync(x => x.Id == 1);
 
                     Console.WriteLine(emp1b.Company == null ? "B: Company of Employee 1 is null" : "Company of Employee 1 is not null");
                     

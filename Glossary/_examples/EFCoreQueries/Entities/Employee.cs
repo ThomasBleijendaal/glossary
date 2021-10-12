@@ -8,7 +8,7 @@ namespace EFDapper.Repositories.Entities
 
         public string? Name { get; set; }
 
-        public /* D-2: virtual*/ Company? Company { get; set; }
+        public virtual Company? Company { get; set; }
 
         public int? CompanyId { get; set; }
 

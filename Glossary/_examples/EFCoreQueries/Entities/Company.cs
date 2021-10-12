@@ -8,6 +8,6 @@ namespace EFDapper.Repositories.Entities
 
         public string? Name { get; set; }
 
-        public /* D-2: virtual*/ ICollection<Employee> Employees { get; set; } = new List<Employee>();
+        public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
     }
 }
