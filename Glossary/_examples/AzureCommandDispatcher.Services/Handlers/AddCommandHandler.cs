@@ -7,5 +7,4 @@ namespace AzureCommandDispatcher.Services.Handlers;
 internal class AddCommandHandler : ImmediateCommandHandlerBase<AddCommand, ResultResponse>
 {
     protected override Task<ResultResponse> HandleCommandInternalAsync(AddCommand request) => Task.FromResult(new ResultResponse { Result = request.Number1 + request.Number2 });
-
 }

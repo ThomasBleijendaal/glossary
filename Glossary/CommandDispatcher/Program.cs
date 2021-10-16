@@ -13,6 +13,9 @@
 
 using System;
 using System.Threading.Tasks;
+using CommandDispatcher.Dispatchers;
+using CommandDispatcher.Handlers;
+using CommandDispatcher.Models;
 using Microsoft.Extensions.DependencyInjection;
 using ZCommon;
 

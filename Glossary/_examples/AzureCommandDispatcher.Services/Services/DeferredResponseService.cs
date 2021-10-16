@@ -26,5 +26,4 @@ internal class DeferredResponseService : IDeferredResponseService
 
     public async Task<TResponse?> ResolveResponseAsync<TResponse>(IDeferredResponse response)
         => JsonConvert.DeserializeObject<TResponse>((await _database.StringGetAsync(new RedisKey(response.Uri))) is RedisValue value && value.HasValue ? value.ToString() : "");
-
 }
