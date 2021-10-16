@@ -39,8 +39,7 @@ namespace Options
             {
                 do
                 {
-                    // this is a bad example, but imagine that the providers (like a key vault provider) can refetch the configuration via some configuration api
-                    config.Providers.First().Set($"{nameof(ExampleConfig)}:{nameof(ExampleConfig.ConfigString)}", DateTime.UtcNow.ToString());
+                    RefreshConfig(config);
                     config.Reload();
 
                     Console.WriteLine("Config reloaded!");
@@ -80,6 +79,13 @@ namespace Options
                 }
                 while (true);
             }
+        }
+
+        private static void RefreshConfig(IConfigurationRoot config)
+        {
+            // this is a bad example, but imagine that the providers (like a key vault provider) can refetch the configuration via some configuration api
+            var memoryCollection = config.Providers.First();
+            memoryCollection.Set($"{nameof(ExampleConfig)}:{nameof(ExampleConfig.ConfigString)}", DateTime.UtcNow.ToString());
         }
     }
 }

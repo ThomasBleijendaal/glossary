@@ -1,5 +1,5 @@
 ﻿/**
- * A resolver is a one trick pony that resolves a piece of information that can be reused
+ * A resolver is a one-trick pony that resolves a piece of information that can be reused
  * everwhere it's needed. A resolver fetches the data everytime its requested and will not
  * cache it.
  * 

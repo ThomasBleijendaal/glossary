@@ -27,6 +27,14 @@ namespace Repository
      * without becoming cluttered and messy. The specifications do not depend on a specific data store, making them very
      * unit testable. Since they exist as seperate classes, one can extend and differentiate lots of different specifications
      * while remaining DRY.
+     * 
+     * NOTE:
+     * 
+     * There is bit of an anti-pattern in this example repository which must be kept in mind. The IRepository interface
+     * exposes Get, Add, Delete, Update methods that are 1-to-1 proxy methods for the DbContext that is behind the repository.
+     * These methods do not add anything instead of another level in you application. The DbContext already is an abstraction
+     * and is a fully fledged repository. If you do not implement anything like an ISpecificationRespotory, or the more complex
+     * repository examples in CQRS project, you should skip the repository abstraction and just use your DbContext as the repository.
      */
 
     public class Program : BaseProgram
