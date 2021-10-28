@@ -9,7 +9,9 @@
 * Provider
 * Visitor
 * Factory 
+* Pipeline
 * CommandDispatcher
+* HttpPipeline 
 * Mediator
 * Repository
 * CQRS (+ CQRS.CommandProcessor)

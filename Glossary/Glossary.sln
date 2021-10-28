@@ -63,9 +63,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatefulEntities", "_exampl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommandDispatcher", "CommandDispatcher", "{9A2EF67A-1222-429A-8AAD-00A54DAB8FEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureCommandDispatcher", "_examples\AzureCommandDispatcher\AzureCommandDispatcher.csproj", "{85B116D4-47A9-47F1-BC5D-C4F34C8B527C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureCommandDispatcher", "_examples\AzureCommandDispatcher\AzureCommandDispatcher.csproj", "{85B116D4-47A9-47F1-BC5D-C4F34C8B527C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureCommandDispatcher.Services", "_examples\AzureCommandDispatcher.Services\AzureCommandDispatcher.Services.csproj", "{C0648F81-8AFC-423F-B381-012DCEF3FACB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureCommandDispatcher.Services", "_examples\AzureCommandDispatcher.Services\AzureCommandDispatcher.Services.csproj", "{C0648F81-8AFC-423F-B381-012DCEF3FACB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpPipeline", "HttpPipeline\HttpPipeline.csproj", "{E12432C9-2CCF-422D-ADD5-43614355487B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +179,10 @@ Global
 		{C0648F81-8AFC-423F-B381-012DCEF3FACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0648F81-8AFC-423F-B381-012DCEF3FACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0648F81-8AFC-423F-B381-012DCEF3FACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E12432C9-2CCF-422D-ADD5-43614355487B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E12432C9-2CCF-422D-ADD5-43614355487B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E12432C9-2CCF-422D-ADD5-43614355487B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E12432C9-2CCF-422D-ADD5-43614355487B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
