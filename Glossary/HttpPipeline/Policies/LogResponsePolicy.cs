@@ -14,11 +14,15 @@ internal class LogResponsePolicy : HttpPipelinePolicy
 
     public override async Task ProcessAsync(Request message, ReadOnlyMemory<HttpPipelinePolicy> pipeline, Func<Task> next)
     {
-        var responseBody = message.Response.HttpResponseResponse.Content is HttpContent content
+        // it is important to redact any PII here in real world scenarios
+
+        var responseBody = message.Response.HttpResponseMessage.Content is HttpContent content
             ? await content.ReadAsStringAsync()
             : default;
 
         _logger.LogInformation("Response body was: {responseBody}", responseBody);
+
+        // more response details can be logged, like headers and stuff
 
         await next();
     }

@@ -17,13 +17,10 @@ public class HttpPipeline
         return request.Response;
     }
 
-    public async Task<Response<TResponseModel>> SendAsync<TResponseModel>(Request request)
+    public async Task<Response<TResponseModel>> SendAsync<TResponseModel>(Request<TResponseModel> request)
         where TResponseModel : class
     {
-        var typedRequest = new TypedRequest(request, typeof(TResponseModel));
-
-        await SendAsync(typedRequest);
-
-        return new Response<TResponseModel>(typedRequest.Response);
+        await HttpPipelinePolicy.ProcessNextAsync(request, _policies);
+        return new Response<TResponseModel>(request.Response);
     }
 }

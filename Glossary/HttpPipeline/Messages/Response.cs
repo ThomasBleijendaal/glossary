@@ -4,10 +4,10 @@ public class Response
 {
     internal Response(HttpResponseMessage response)
     {
-        HttpResponseResponse = response;
+        HttpResponseMessage = response;
     }
 
-    public HttpResponseMessage HttpResponseResponse { get; }
+    public HttpResponseMessage HttpResponseMessage { get; }
 
     public object? Content { get; set; }
 }
@@ -17,7 +17,7 @@ public class Response<TResponseModel> : Response
 {
     private readonly Response _response;
 
-    public Response(Response response) : base(response.HttpResponseResponse)
+    public Response(Response response) : base(response.HttpResponseMessage)
     {
         _response = response;
     }

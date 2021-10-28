@@ -20,8 +20,8 @@ public class AuthenticatedGateway
 
     public async Task<AuthResponse?> GetAuthAsync(string name)
     {
-        var request = new Request(HttpMethod.Get, $"https://pokeapi.co/api/v2/pokemon/{name}");
-        var response = await _httpPipeline.SendAsync<AuthResponse>(request);
+        var request = new Request<AuthResponse>(HttpMethod.Get, $"https://pokeapi.co/api/v2/pokemon/{name}");
+        var response = await _httpPipeline.SendAsync(request);
         return response.Content;
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using HttpPipeline.Messages;
+﻿using HttpPipeline.Messages;
 
 namespace HttpPipeline.GatewayExamples.AuthenticatedGateway;
 
@@ -14,7 +13,7 @@ public class BearerTokenPolicy : HttpPipelinePolicy
     {
         // requests a bearer token from external service
 
-        message.HttpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "ey.ey.SIG");
+        message.SetHeader("Authorization", "Bearer ey.ey.SIG");
 
         await next();
     }

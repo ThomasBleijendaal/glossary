@@ -10,6 +10,11 @@ public class HttpPipelineBuilder
 
         AddPolicies(HttpPipelinePosition.Start);
 
+        if (options.Retries > 0)
+        {
+            policies.Add(new RetryPolicy(options.Logger, options.Retries));
+        }
+
         if (options.LogRequests)
         {
             policies.Add(new LogRequestPolicy(options.Logger));

@@ -15,9 +15,15 @@ public class ClientOptions
     internal List<(HttpPipelinePosition Position, HttpPipelinePolicy Policy)>? Policies { get; private set; }
 
     public IHttpClientFactory HttpClientFactory { get; set; }
+
     public ILogger Logger { get; }
+
     public bool LogRequests { get; set; }
     public bool LogResponses { get; set; }
+
+    public int Retries { get; set; }
+
+    public bool EnsureSuccessStatusCode { get; set; }
 
     public void AddPolicy(HttpPipelinePosition position, HttpPipelinePolicy policy)
     {

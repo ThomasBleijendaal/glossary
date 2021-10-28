@@ -13,11 +13,16 @@ internal class HttpPipelineClientPolicy : HttpPipelinePolicy
 
     public override async Task ProcessAsync(Request message, ReadOnlyMemory<HttpPipelinePolicy> pipeline, Func<Task> next)
     {
-        var request = message.HttpRequestMessage;
+        var request = message.GetHttpRequestMessage();
 
         var httpClient = _httpClientFactory.CreateClient();
 
         var response = await httpClient.SendAsync(request);
+
+        if (message.EnsureSuccessStatusCode)
+        {
+            response.EnsureSuccessStatusCode();
+        }
 
         message.Response = new Response(response);
 
