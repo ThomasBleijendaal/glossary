@@ -1,5 +1,5 @@
-﻿using HttpPipeline.GatewayExamples.AuthenticatedGateway;
-using HttpPipeline.GatewayExamples.PokeGateway;
+﻿using GatewayExample.AuthenticatedGateway;
+using GatewayExample.PokeGateway;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -12,6 +12,7 @@ collection.AddSingleton<AuthenticatedGateway>();
 
 var sp = collection.BuildServiceProvider();
 
+var logger = sp.GetRequiredService<ILogger<Program>>();
 
 var pokeGateway = sp.GetRequiredService<PokeGateway>();
 
@@ -19,14 +20,23 @@ var poke = await pokeGateway.GetPokeAsync("pikachu");
 
 Console.WriteLine(poke?.Name);
 
+try
+{
+    var error = await pokeGateway.GetPokeAsync("unfindable");
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "PokeGateway error");
+}
 
 var authGateway = sp.GetRequiredService<AuthenticatedGateway>();
 
-var auth = await authGateway.GetAuthAsync("ditto");
+var auth1 = await authGateway.GetAuthAsync("ditto");
+Console.WriteLine(auth1?.Name);
 
-Console.WriteLine(auth?.Name);
+var auth2 = await authGateway.GetAuthAsync("ditto");
+Console.WriteLine(auth2?.Name);
 
-
-
+// -- 
 
 Console.ReadLine();

@@ -1,4 +1,4 @@
-﻿namespace HttpPipeline.GatewayExamples.PokeGateway;
+﻿namespace GatewayExample.PokeGateway;
 
 public class PokeResponse
 {

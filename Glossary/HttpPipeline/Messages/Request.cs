@@ -1,24 +1,91 @@
-﻿namespace HttpPipeline.Messages;
+﻿using Newtonsoft.Json;
+
+namespace HttpPipeline.Messages;
 
 public class Request
 {
-    private Response? _response;
-
-    protected Request(HttpRequestMessage httpRequestMessage)
+    internal Request(HttpMethod method, string? requestUri)
     {
-        HttpRequestMessage = httpRequestMessage;
+        Method = method;
+        RequestUri = requestUri;
     }
 
-    public HttpRequestMessage HttpRequestMessage;
+    protected Dictionary<string, string>? Headers { get; set; }
+    protected Dictionary<string, string>? ContentHeaders { get; set; }
+    public Type? ResponseType { get; protected set; }
+    public BinaryData? Content { get; protected set; }
 
-    public Request(HttpMethod method, string? requestUri)
+    public HttpMethod Method { get; }
+    public string? RequestUri { get; }
+    public bool EnsureSuccessStatusCode { get; set; }
+
+    public void SetHeader(string name, string value)
     {
-        HttpRequestMessage = new HttpRequestMessage(method, requestUri);
+        Headers ??= new();
+        if (Headers.ContainsKey(name))
+        {
+            Headers[name] = value;
+        }
+        else
+        {
+            Headers.Add(name, value);
+        }
+    }
+    public void SetContentHeader(string name, string value)
+    {
+        ContentHeaders ??= new();
+        if (ContentHeaders.ContainsKey(name))
+        {
+            ContentHeaders[name] = value;
+        }
+        else
+        {
+            ContentHeaders.Add(name, value);
+        }
     }
 
-    public Response Response
+    public void SetContent<T>(T model) => SetContent(JsonConvert.SerializeObject(model), "application/json");
+
+    public void SetContent(string data, string contentType)
     {
-        get => _response ?? throw new InvalidOperationException();
-        set => _response = value;
+        Content = new BinaryData(data);
+        SetContentHeader("Content-Type", contentType);
+    }
+
+    internal HttpRequestMessage GetHttpRequestMessage()
+    {
+        var request = new HttpRequestMessage(Method, RequestUri);
+
+        if (Headers != null)
+        {
+            foreach (var header in Headers)
+            {
+                request.Headers.Add(header.Key, header.Value);
+            }
+        }
+
+        if (Content != null)
+        {
+            request.Content = new StreamContent(Content.ToStream());
+
+            if (ContentHeaders != null)
+            {
+                foreach (var header in ContentHeaders)
+                {
+                    request.Content.Headers.Add(header.Key, header.Value);
+                }
+            }
+        }
+
+        return request;
     }
 }
+
+public class Request<TResponseType> : Request
+{
+    internal Request(HttpMethod method, string? requestUri) : base(method, requestUri)
+    {
+        ResponseType = typeof(TResponseType);
+    }
+}
+

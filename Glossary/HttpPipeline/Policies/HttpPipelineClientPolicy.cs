@@ -2,7 +2,7 @@
 
 namespace HttpPipeline.Policies;
 
-internal class HttpPipelineClientPolicy : HttpPipelinePolicy
+internal class HttpPipelineClientPolicy : IHttpPipelinePolicy
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
@@ -11,9 +11,9 @@ internal class HttpPipelineClientPolicy : HttpPipelinePolicy
         _httpClientFactory = httpClientFactory;
     }
 
-    public override async Task ProcessAsync(Request message, ReadOnlyMemory<HttpPipelinePolicy> pipeline, Func<Task> next)
+    public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
     {
-        var request = message.HttpRequestMessage;
+        var request = message.Request.GetHttpRequestMessage();
 
         var httpClient = _httpClientFactory.CreateClient();
 

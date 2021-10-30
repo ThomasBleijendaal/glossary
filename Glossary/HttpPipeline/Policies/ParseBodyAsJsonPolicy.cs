@@ -3,15 +3,15 @@ using Newtonsoft.Json;
 
 namespace HttpPipeline.Policies;
 
-internal class ParseBodyAsJsonPolicy : HttpPipelinePolicy
+public class ParseBodyAsJsonPolicy : IHttpPipelinePolicy
 {
-    public override async Task ProcessAsync(Request message, ReadOnlyMemory<HttpPipelinePolicy> pipeline, Func<Task> next)
+    public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
     {
-        if (message is TypedRequest typedRequest)
+        if (message.Request.ResponseType is Type responseType)
         {
             var responseObject = JsonConvert.DeserializeObject(
-                await message.Response.HttpResponseResponse.Content.ReadAsStringAsync(),
-                typedRequest.ResponseType);
+                await message.Response.HttpResponseMessage.Content.ReadAsStringAsync(),
+                responseType);
 
             message.Response.Content = responseObject;
         }

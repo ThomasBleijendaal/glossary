@@ -1,5 +1,4 @@
-﻿namespace HttpPipeline.GatewayExamples.AuthenticatedGateway;
-
+﻿namespace GatewayExample.AuthenticatedGateway;
 
 public class AuthResponse
 {

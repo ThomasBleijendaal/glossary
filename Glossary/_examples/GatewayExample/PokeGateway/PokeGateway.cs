@@ -1,19 +1,20 @@
-﻿using HttpPipeline.Messages;
+﻿using HttpPipeline;
 using HttpPipeline.Policies;
 using Microsoft.Extensions.Logging;
 
-namespace HttpPipeline.GatewayExamples.PokeGateway;
+namespace GatewayExample.PokeGateway;
 
 public class PokeGateway
 {
-    private readonly HttpPipeline _httpPipeline;
+    private readonly IHttpPipeline _httpPipeline;
 
     public PokeGateway(IHttpClientFactory httpClientFactory, ILogger<PokeGateway> logger)
     {
-        var options = new ClientOptions(httpClientFactory, logger)
+        var options = new ClientOptions(new Uri("https://pokeapi.co/api/v2/"), httpClientFactory, logger)
         {
             LogRequests = true,
-            LogResponses = true
+            LogResponses = true,
+            Retries = 1
         };
 
         options.AddPolicy(HttpPipelinePosition.AfterHttpClient, new ParseBodyAsJsonPolicy());
@@ -23,8 +24,11 @@ public class PokeGateway
 
     public async Task<PokeResponse?> GetPokeAsync(string name)
     {
-        var request = new Request(HttpMethod.Get, $"https://pokeapi.co/api/v2/pokemon/{name}");
-        var response = await _httpPipeline.SendAsync<PokeResponse>(request);
+        var request = _httpPipeline.CreateRequest<PokeResponse>(HttpMethod.Get, $"pokemon/{name}");
+
+        request.EnsureSuccessStatusCode = true;
+
+        var response = await _httpPipeline.SendAsync(request);
         return response.Content;
     }
 }
