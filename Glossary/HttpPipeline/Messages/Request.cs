@@ -1,23 +1,18 @@
-﻿namespace HttpPipeline.Messages;
+﻿using Newtonsoft.Json;
+
+namespace HttpPipeline.Messages;
 
 public class Request
 {
-    private Response? _response;
-
-    public Request(HttpMethod method, string? requestUri)
+    internal Request(HttpMethod method, string? requestUri)
     {
         Method = method;
         RequestUri = requestUri;
     }
 
-    public Response Response
-    {
-        get => _response ?? throw new InvalidOperationException();
-        set => _response = value;
-    }
-
     protected Dictionary<string, string>? Headers { get; set; }
-    internal Type? ResponseType { get; set; }
+    protected Dictionary<string, string>? ContentHeaders { get; set; }
+    public Type? ResponseType { get; protected set; }
     public BinaryData? Content { get; protected set; }
 
     public HttpMethod Method { get; }
@@ -36,11 +31,25 @@ public class Request
             Headers.Add(name, value);
         }
     }
-
-    public void SetContent<T>(T model)
+    public void SetContentHeader(string name, string value)
     {
-        Content = new BinaryData(model);
-        SetHeader("Content-Type", "application/json");
+        ContentHeaders ??= new();
+        if (ContentHeaders.ContainsKey(name))
+        {
+            ContentHeaders[name] = value;
+        }
+        else
+        {
+            ContentHeaders.Add(name, value);
+        }
+    }
+
+    public void SetContent<T>(T model) => SetContent(JsonConvert.SerializeObject(model), "application/json");
+
+    public void SetContent(string data, string contentType)
+    {
+        Content = new BinaryData(data);
+        SetContentHeader("Content-Type", contentType);
     }
 
     internal HttpRequestMessage GetHttpRequestMessage()
@@ -58,6 +67,14 @@ public class Request
         if (Content != null)
         {
             request.Content = new StreamContent(Content.ToStream());
+
+            if (ContentHeaders != null)
+            {
+                foreach (var header in ContentHeaders)
+                {
+                    request.Content.Headers.Add(header.Key, header.Value);
+                }
+            }
         }
 
         return request;
@@ -66,7 +83,7 @@ public class Request
 
 public class Request<TResponseType> : Request
 {
-    public Request(HttpMethod method, string? requestUri) : base(method, requestUri)
+    internal Request(HttpMethod method, string? requestUri) : base(method, requestUri)
     {
         ResponseType = typeof(TResponseType);
     }

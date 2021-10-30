@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HttpPipeline.Policies;
 
-internal class LogResponsePolicy : HttpPipelinePolicy
+internal class LogResponsePolicy : IHttpPipelinePolicy
 {
     private readonly ILogger _logger;
 
@@ -12,7 +12,7 @@ internal class LogResponsePolicy : HttpPipelinePolicy
         _logger = logger;
     }
 
-    public override async Task ProcessAsync(Request message, ReadOnlyMemory<HttpPipelinePolicy> pipeline, Func<Task> next)
+    public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
     {
         // it is important to redact any PII here in real world scenarios
 

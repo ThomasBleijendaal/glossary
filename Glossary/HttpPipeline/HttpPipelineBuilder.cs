@@ -4,15 +4,15 @@ namespace HttpPipeline;
 
 public class HttpPipelineBuilder
 {
-    public static HttpPipeline Build(ClientOptions options)
+    public static IHttpPipeline Build(ClientOptions options)
     {
-        var policies = new List<HttpPipelinePolicy>();
+        var policies = new List<IHttpPipelinePolicy>();
 
         AddPolicies(HttpPipelinePosition.Start);
 
         if (options.Retries > 0)
         {
-            policies.Add(new RetryPolicy(options.Logger, options.Retries));
+            policies.Add(new RetryPolicy(options.Logger, options.Retries, options.RetryDelay));
         }
 
         if (options.LogRequests)
@@ -24,6 +24,11 @@ public class HttpPipelineBuilder
 
         policies.Add(new HttpPipelineClientPolicy(options.HttpClientFactory));
 
+        if (options.EnableEnsureSuccessStatusCode)
+        {
+            policies.Add(new EnsureSuccessStatusCodePolicy());
+        }
+
         AddPolicies(HttpPipelinePosition.AfterHttpClient);
 
         if (options.LogResponses)
@@ -33,7 +38,9 @@ public class HttpPipelineBuilder
 
         AddPolicies(HttpPipelinePosition.End);
 
-        return new HttpPipeline(policies.ToArray());
+        return new HttpPipeline(
+            options.RequestBuilder ?? new RequestBuilder(options.BaseUri), 
+            policies.ToArray());
 
         void AddPolicies(HttpPipelinePosition position)
         {
