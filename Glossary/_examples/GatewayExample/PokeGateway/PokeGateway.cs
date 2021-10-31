@@ -1,5 +1,4 @@
 ﻿using HttpPipeline;
-using HttpPipeline.Policies;
 using Microsoft.Extensions.Logging;
 
 namespace GatewayExample.PokeGateway;
@@ -19,8 +18,6 @@ public class PokeGateway
                 MaxRetries = 1
             }
         };
-
-        options.AddPolicy(HttpPipelinePosition.AfterTransport, new ParseBodyAsJsonPolicy());
 
         _httpPipeline = HttpPipelineBuilder.Build(options);
     }

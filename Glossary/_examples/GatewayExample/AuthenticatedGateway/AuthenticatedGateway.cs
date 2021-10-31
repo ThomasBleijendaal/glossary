@@ -1,5 +1,4 @@
 ﻿using HttpPipeline;
-using HttpPipeline.Policies;
 using Microsoft.Extensions.Logging;
 
 namespace GatewayExample.AuthenticatedGateway;
@@ -19,7 +18,6 @@ public class AuthenticatedGateway
         };
 
         options.AddPolicy(HttpPipelinePosition.BeforeTransport, new AuthenticatedGatewayBearerTokenPolicy("username", "password"));
-        options.AddPolicy(HttpPipelinePosition.AfterTransport, new ParseBodyAsJsonPolicy());
 
         _httpPipeline = HttpPipelineBuilder.Build(options);
     }
@@ -29,6 +27,7 @@ public class AuthenticatedGateway
         var request = _httpPipeline.CreateRequest<AuthResponse>(HttpMethod.Post, "api/get");
 
         request.SetContent(new { name });
+        request.SetProperty(AuthenticatedGatewayBearerTokenPolicy.ScopePropertyKey, "scope");
 
         var response = await _httpPipeline.SendAsync(request);
         return response.Content;

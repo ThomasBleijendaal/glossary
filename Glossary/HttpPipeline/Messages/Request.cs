@@ -1,9 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace HttpPipeline.Messages;
 
 public class Request
 {
+    private Dictionary<string, object>? _properties;
+
     internal Request(HttpMethod method, string? requestUri)
     {
         Method = method;
@@ -50,6 +53,26 @@ public class Request
     {
         Content = new BinaryData(data);
         SetContentHeader("Content-Type", contentType);
+    }
+
+    public bool TryGetProperty<T>(string propertyName, [NotNullWhen(true)] out T? propertyValue)
+    {
+        if (_properties?.TryGetValue(propertyName, out var value) == true && value is T correctValue)
+        {
+            propertyValue = correctValue;
+            return true;
+        }
+        else
+        {
+            propertyValue = default;
+            return false;
+        }
+    }
+
+    public void SetProperty(string propertyName, object value)
+    {
+        _properties ??= new();
+        _properties[propertyName] = value;
     }
 
     internal HttpRequestMessage GetHttpRequestMessage()

@@ -13,32 +13,77 @@ public abstract class BearerTokenPolicy : IHttpPipelinePolicy
 
     public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
     {
-        message.Request.SetHeader("Authorization", $"Bearer {await _tokenCache.GetTokenAsync()}");
+        message.Request.SetHeader("Authorization", $"Bearer {await _tokenCache.GetTokenAsync(GetScope(message))}");
         await next();
     }
 
-    protected abstract Task<(string token, DateTimeOffset expiry)> GetBearerTokenAsync();
+    protected abstract string GetScope(HttpMessage message);
+    protected abstract Task<AccessToken> GetBearerTokenAsync(string scope);
 
     private class BearerTokenCache
     {
-        private readonly Func<Task<(string token, DateTimeOffset expiry)>> _tokenFactory;
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+        private readonly Func<string, Task<AccessToken>> _tokenFactory;
 
-        private string? _token { get; set; }
-        private DateTimeOffset? _expiry { get; set; }
+        private readonly Dictionary<string, AccessToken> _tokenCache = new Dictionary<string, AccessToken>();
 
-        public BearerTokenCache(Func<Task<(string token, DateTimeOffset expiry)>> tokenFactory)
+        public BearerTokenCache(Func<string, Task<AccessToken>> tokenFactory)
         {
             _tokenFactory = tokenFactory;
         }
 
-        public async Task<string> GetTokenAsync()
+        public async Task<string> GetTokenAsync(string scope)
         {
-            if (string.IsNullOrEmpty(_token) || (_expiry.HasValue && _expiry < DateTimeOffset.UtcNow))
+            if (GetValidToken(scope, out var cachedToken))
             {
-                (_token, _expiry) = await _tokenFactory();
+                return cachedToken.Token;
             }
 
-            return _token;
+            try
+            {
+                await _semaphore.WaitAsync();
+
+                if (GetValidToken(scope, out var recentlyCachedToken))
+                {
+                    return recentlyCachedToken.Token;
+                }
+
+                var newToken = await _tokenFactory(scope);
+
+                _tokenCache[scope] = newToken;
+
+                return newToken.Token;
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
+
+        private bool GetValidToken(string scope, out AccessToken token)
+        {
+            if (_tokenCache.TryGetValue(scope, out var accessToken) && accessToken.Expiry > DateTimeOffset.UtcNow)
+            {
+                token = accessToken;
+                return true;
+            }
+            else
+            {
+                token = new AccessToken("", DateTimeOffset.MinValue);
+                return false;
+            }
+        }
+    }
+
+    public class AccessToken
+    {
+        public AccessToken(string token, DateTimeOffset expiry)
+        {
+            Token = token ?? throw new ArgumentNullException(nameof(token));
+            Expiry = expiry;
+        }
+
+        public string Token { get; set; }
+        public DateTimeOffset Expiry { get; set; }
     }
 }

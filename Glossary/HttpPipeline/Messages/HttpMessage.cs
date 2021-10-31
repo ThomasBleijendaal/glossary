@@ -1,6 +1,6 @@
 ﻿namespace HttpPipeline.Messages;
 
-public class HttpMessage
+public class HttpMessage : IDisposable
 {
     private Response? _response;
 
@@ -19,6 +19,12 @@ public class HttpMessage
         get => _response ?? throw new InvalidOperationException();
         set => _response = value;
     }
+
+    public void Dispose()
+    {
+        DisposeAndDropResponse();
+    }
+
     public void DisposeAndDropResponse()
     {
         _response?.HttpResponseMessage.Dispose();

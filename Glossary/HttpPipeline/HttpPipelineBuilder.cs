@@ -36,6 +36,11 @@ public class HttpPipelineBuilder
             policies.Add(new LogResponsePolicy(options.Logger));
         }
 
+        if (options.ParseBodyAsJson)
+        {
+            policies.Add(new ParseBodyAsJsonPolicy());
+        }
+
         AddPolicies(HttpPipelinePosition.End);
 
         return new HttpPipeline(

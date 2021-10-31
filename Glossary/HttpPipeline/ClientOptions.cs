@@ -41,6 +41,8 @@ public class ClientOptions
 
     public bool EnableEnsureSuccessStatusCode { get; set; } = true;
 
+    public bool ParseBodyAsJson { get; set; } = true;
+
     public void AddPolicy(HttpPipelinePosition position, IHttpPipelinePolicy policy)
     {
         Policies ??= new();
