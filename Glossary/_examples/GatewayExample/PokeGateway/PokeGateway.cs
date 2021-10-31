@@ -14,10 +14,13 @@ public class PokeGateway
         {
             LogRequests = true,
             LogResponses = true,
-            Retries = 1
+            Retry = 
+            {
+                MaxRetries = 1
+            }
         };
 
-        options.AddPolicy(HttpPipelinePosition.AfterHttpClient, new ParseBodyAsJsonPolicy());
+        options.AddPolicy(HttpPipelinePosition.AfterTransport, new ParseBodyAsJsonPolicy());
 
         _httpPipeline = HttpPipelineBuilder.Build(options);
     }

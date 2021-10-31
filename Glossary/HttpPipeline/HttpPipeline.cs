@@ -6,6 +6,8 @@
  * The HttpPipelineBuilder builds a HttpPipeline that is loaded with specific policies that 
  * create a stack through which requests are piped. Each policy should be simple and specific,
  * and could be reused between gateways.
+ * 
+ * TODO: customize IHttpClientFactory
  */
 
 using HttpPipeline.Messages;

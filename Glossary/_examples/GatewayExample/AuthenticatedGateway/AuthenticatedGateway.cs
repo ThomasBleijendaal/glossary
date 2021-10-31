@@ -12,11 +12,14 @@ public class AuthenticatedGateway
     {
         var options = new ClientOptions(new Uri("https://httppipeline.azurewebsites.net"), httpClientFactory, logger)
         {
-            Retries = 10
+            Retry = 
+            {
+                MaxRetries = 10
+            }
         };
 
-        options.AddPolicy(HttpPipelinePosition.BeforeHttpClient, new AuthenticatedGatewayBearerTokenPolicy("username", "password"));
-        options.AddPolicy(HttpPipelinePosition.AfterHttpClient, new ParseBodyAsJsonPolicy());
+        options.AddPolicy(HttpPipelinePosition.BeforeTransport, new AuthenticatedGatewayBearerTokenPolicy("username", "password"));
+        options.AddPolicy(HttpPipelinePosition.AfterTransport, new ParseBodyAsJsonPolicy());
 
         _httpPipeline = HttpPipelineBuilder.Build(options);
     }

@@ -10,7 +10,17 @@ public class ClientOptions
         ILogger logger)
     {
         BaseUri = baseUri;
-        HttpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+        Transport = new HttpPipelineTransport(httpClientFactory);
+        Logger = logger;
+    }
+
+    public ClientOptions(
+        Uri baseUri,
+        HttpPipelineTransport httpPipelineTransport,
+        ILogger logger)
+    {
+        BaseUri = baseUri;
+        Transport = httpPipelineTransport;
         Logger = logger;
     }
 
@@ -18,7 +28,7 @@ public class ClientOptions
 
     public Uri BaseUri { get; }
 
-    public IHttpClientFactory HttpClientFactory { get; }
+    public HttpPipelineTransport Transport { get; }
 
     public ILogger Logger { get; }
 
@@ -27,9 +37,7 @@ public class ClientOptions
     public bool LogRequests { get; set; }
     public bool LogResponses { get; set; }
 
-    public int Retries { get; set; }
-
-    public TimeSpan RetryDelay { get; set; } = TimeSpan.FromSeconds(1);
+    public RetryOptions Retry { get; set; } = new RetryOptions();
 
     public bool EnableEnsureSuccessStatusCode { get; set; } = true;
 

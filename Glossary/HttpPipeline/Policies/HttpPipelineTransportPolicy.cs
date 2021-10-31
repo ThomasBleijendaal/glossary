@@ -2,20 +2,20 @@
 
 namespace HttpPipeline.Policies;
 
-internal class HttpPipelineClientPolicy : IHttpPipelinePolicy
+internal class HttpPipelineTransportPolicy : IHttpPipelinePolicy
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly HttpPipelineTransport _httpPipelineTransport;
 
-    public HttpPipelineClientPolicy(IHttpClientFactory httpClientFactory)
+    public HttpPipelineTransportPolicy(HttpPipelineTransport httpPipelineTransport)
     {
-        _httpClientFactory = httpClientFactory;
+        _httpPipelineTransport = httpPipelineTransport;
     }
 
     public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
     {
         var request = message.Request.GetHttpRequestMessage();
 
-        var httpClient = _httpClientFactory.CreateClient();
+        var httpClient = _httpPipelineTransport.CreateClient();
 
         var response = await httpClient.SendAsync(request);
 

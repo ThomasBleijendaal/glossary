@@ -10,9 +10,9 @@ public class HttpPipelineBuilder
 
         AddPolicies(HttpPipelinePosition.Start);
 
-        if (options.Retries > 0)
+        if (options.Retry.MaxRetries > 0)
         {
-            policies.Add(new RetryPolicy(options.Logger, options.Retries, options.RetryDelay));
+            policies.Add(new RetryPolicy(options.Logger, options.Retry));
         }
 
         if (options.LogRequests)
@@ -20,16 +20,16 @@ public class HttpPipelineBuilder
             policies.Add(new LogRequestPolicy(options.Logger));
         }
 
-        AddPolicies(HttpPipelinePosition.BeforeHttpClient);
+        AddPolicies(HttpPipelinePosition.BeforeTransport);
 
-        policies.Add(new HttpPipelineClientPolicy(options.HttpClientFactory));
+        policies.Add(new HttpPipelineTransportPolicy(options.Transport));
 
         if (options.EnableEnsureSuccessStatusCode)
         {
             policies.Add(new EnsureSuccessStatusCodePolicy());
         }
 
-        AddPolicies(HttpPipelinePosition.AfterHttpClient);
+        AddPolicies(HttpPipelinePosition.AfterTransport);
 
         if (options.LogResponses)
         {

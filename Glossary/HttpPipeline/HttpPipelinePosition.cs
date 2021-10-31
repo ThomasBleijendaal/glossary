@@ -3,7 +3,7 @@
 public enum HttpPipelinePosition
 {
     Start,
-    BeforeHttpClient,
-    AfterHttpClient,
+    BeforeTransport,
+    AfterTransport,
     End
 }

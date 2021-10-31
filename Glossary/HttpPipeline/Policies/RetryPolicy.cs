@@ -7,14 +7,12 @@ namespace HttpPipeline.Policies;
 internal class RetryPolicy : IHttpPipelinePolicy
 {
     private readonly ILogger _logger;
-    private readonly int _maxRetries;
-    private readonly TimeSpan _retryDelay;
+    private readonly RetryOptions _options;
 
-    public RetryPolicy(ILogger logger, int maxRetries, TimeSpan retryDelay)
+    public RetryPolicy(ILogger logger, RetryOptions options)
     {
         _logger = logger;
-        _maxRetries = maxRetries;
-        _retryDelay = retryDelay;
+        _options = options;
     }
 
     public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
@@ -44,14 +42,14 @@ internal class RetryPolicy : IHttpPipelinePolicy
                 exceptions.Add(ex);
             }
 
-            var shouldRetry = attempt <= _maxRetries;
+            var shouldRetry = attempt <= _options.MaxRetries;
             var delay = TimeSpan.Zero;
 
             if (lastException != null)
             {
                 if (shouldRetry)
                 {
-                    delay = _retryDelay;
+                    delay = _options.RetryDelay;
                 }
                 else
                 {
@@ -69,7 +67,7 @@ internal class RetryPolicy : IHttpPipelinePolicy
             {
                 if (shouldRetry)
                 {
-                    delay = _retryDelay;
+                    delay = _options.RetryDelay;
                 }
                 else
                 {
