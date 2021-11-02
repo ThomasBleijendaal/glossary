@@ -32,8 +32,10 @@ public class HttpPipelineBuilder
             policies.Add(new ParseBodyAsJsonPolicy());
         }
 
+        AddPolicies(HttpPipelinePosition.BeforeTransport);
+
         policies.Add(new EnsureSuccessStatusCodePolicy());
-        
+
         policies.Add(new HttpPipelineTransportPolicy(options.Transport));
 
         return new HttpPipeline(

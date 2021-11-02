@@ -20,7 +20,5 @@ internal class HttpPipelineTransportPolicy : IHttpPipelinePolicy
         var response = await httpClient.SendAsync(request);
 
         message.Response = new Response(response);
-
-        await next();
     }
 }
