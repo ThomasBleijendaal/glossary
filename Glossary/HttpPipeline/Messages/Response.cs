@@ -2,12 +2,17 @@
 
 public class Response
 {
-    internal Response(HttpResponseMessage response)
+    internal Response(HttpResponseMessage? response)
     {
         HttpResponseMessage = response;
     }
 
-    public HttpResponseMessage HttpResponseMessage { get; }
+    public Response(object? content)
+    {
+        Content = content;
+    }
+
+    public HttpResponseMessage? HttpResponseMessage { get; }
 
     public object? Content { get; set; }
 }

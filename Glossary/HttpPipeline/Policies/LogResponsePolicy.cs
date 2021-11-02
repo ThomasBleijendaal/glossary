@@ -18,7 +18,7 @@ internal class LogResponsePolicy : IHttpPipelinePolicy
 
         // it is important to redact any PII here in real world scenarios
 
-        var responseBody = message.Response.HttpResponseMessage.Content is HttpContent content
+        var responseBody = message.Response.HttpResponseMessage?.Content is HttpContent content
             ? await content.ReadAsStringAsync()
             : default;
 

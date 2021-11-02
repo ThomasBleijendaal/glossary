@@ -8,7 +8,7 @@ internal class EnsureSuccessStatusCodePolicy : IHttpPipelinePolicy
     {
         await next();
         
-        if (message.Request.EnsureSuccessStatusCode)
+        if (message.Request.EnsureSuccessStatusCode && message.Response.HttpResponseMessage != null)
         {
             message.Response.HttpResponseMessage.EnsureSuccessStatusCode();
         }

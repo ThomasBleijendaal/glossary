@@ -6,6 +6,30 @@
  * The HttpPipelineBuilder builds a HttpPipeline that is loaded with specific policies that 
  * create a stack through which requests are piped. Each policy should be simple and specific,
  * and could be reused between gateways.
+ * 
+ * The stack of policies behave as a middleware layer, in which they can modify the request,
+ * allow further policies to do their thing, and modify the response if needed. It's even possible
+ * to short-circuit the pipeline when some condition is met.
+ * 
+ * [Policy A]
+ * - ProcessAsync
+ *   - modifies request
+ *   - calls next() -----> [PolicyB]
+ *     |                   - ProcessAsync
+ *     |                     - modifies request
+ *     |                     - calls next() ---------> [HttpPipelineTransportPolicy]
+ *     |                       |                       - ProcessAsync
+ *     |                       |                         - calls HttpPipelineTransport.CreateClient()
+ *     |                       |                         - calls HttpClient.SendAsync()
+ *     |                       |                         - sets response on HttpMessage
+ *     |                       |<------------------------- returns
+ *     |                       V
+ *     |                     - modifies response
+ *     |---------------------- returns
+ *     V
+ *   - modifies response
+ *   - returns
+ * 
  */
 
 using HttpPipeline.Messages;

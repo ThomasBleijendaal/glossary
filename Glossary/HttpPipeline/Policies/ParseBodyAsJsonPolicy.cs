@@ -9,7 +9,7 @@ public class ParseBodyAsJsonPolicy : IHttpPipelinePolicy
     {
         await next();
 
-        if (message.Request.ResponseType is Type responseType)
+        if (message.Request.ResponseType is Type responseType && message.Response.HttpResponseMessage != null)
         {
             var responseObject = JsonConvert.DeserializeObject(
                 await message.Response.HttpResponseMessage.Content.ReadAsStringAsync(),

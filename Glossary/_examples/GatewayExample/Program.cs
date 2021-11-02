@@ -7,6 +7,7 @@ var collection = new ServiceCollection();
 
 collection.AddLogging(logging => logging.AddConsole());
 collection.AddHttpClient();
+collection.AddMemoryCache();
 collection.AddSingleton<PokeGateway>();
 collection.AddSingleton<AuthenticatedGateway>();
 
@@ -17,6 +18,11 @@ var logger = sp.GetRequiredService<ILogger<Program>>();
 var pokeGateway = sp.GetRequiredService<PokeGateway>();
 
 var poke = await pokeGateway.GetPokeAsync("pikachu");
+
+// subsequent requests within the cache timeout of the http pipeline will return cached response
+var poke1 = await pokeGateway.GetPokeAsync("pikachu");
+var poke2 = await pokeGateway.GetPokeAsync("pikachu");
+var poke3 = await pokeGateway.GetPokeAsync("pikachu");
 
 Console.WriteLine(poke?.Name);
 
