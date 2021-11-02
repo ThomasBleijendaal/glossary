@@ -14,6 +14,8 @@ internal class LogResponsePolicy : IHttpPipelinePolicy
 
     public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
     {
+        await next();
+
         // it is important to redact any PII here in real world scenarios
 
         var responseBody = message.Response.HttpResponseMessage.Content is HttpContent content
@@ -23,7 +25,5 @@ internal class LogResponsePolicy : IHttpPipelinePolicy
         _logger.LogInformation("Response body was: {responseBody}", responseBody);
 
         // more response details can be logged, like headers and stuff
-
-        await next();
     }
 }

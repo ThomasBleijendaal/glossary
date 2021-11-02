@@ -8,28 +8,19 @@ public class HttpPipelineBuilder
     {
         var policies = new List<IHttpPipelinePolicy>();
 
-        AddPolicies(HttpPipelinePosition.Start);
-
-        if (options.Retry.MaxRetries > 0)
-        {
-            policies.Add(new RetryPolicy(options.Logger, options.Retry));
-        }
+        AddPolicies(HttpPipelinePosition.PerCall);
 
         if (options.LogRequests)
         {
             policies.Add(new LogRequestPolicy(options.Logger));
         }
 
-        AddPolicies(HttpPipelinePosition.BeforeTransport);
-
-        policies.Add(new HttpPipelineTransportPolicy(options.Transport));
-
-        if (options.EnableEnsureSuccessStatusCode)
+        if (options.Retry.MaxRetries > 0)
         {
-            policies.Add(new EnsureSuccessStatusCodePolicy());
+            policies.Add(new RetryPolicy(options.Logger, options.Retry));
         }
 
-        AddPolicies(HttpPipelinePosition.AfterTransport);
+        AddPolicies(HttpPipelinePosition.PerRetry);
 
         if (options.LogResponses)
         {
@@ -41,7 +32,9 @@ public class HttpPipelineBuilder
             policies.Add(new ParseBodyAsJsonPolicy());
         }
 
-        AddPolicies(HttpPipelinePosition.End);
+        policies.Add(new EnsureSuccessStatusCodePolicy());
+        
+        policies.Add(new HttpPipelineTransportPolicy(options.Transport));
 
         return new HttpPipeline(
             options.RequestBuilder ?? new RequestBuilder(options.BaseUri), 

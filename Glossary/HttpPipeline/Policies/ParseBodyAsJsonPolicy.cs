@@ -7,6 +7,8 @@ public class ParseBodyAsJsonPolicy : IHttpPipelinePolicy
 {
     public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
     {
+        await next();
+
         if (message.Request.ResponseType is Type responseType)
         {
             var responseObject = JsonConvert.DeserializeObject(
@@ -15,6 +17,5 @@ public class ParseBodyAsJsonPolicy : IHttpPipelinePolicy
 
             message.Response.Content = responseObject;
         }
-        await next();
     }
 }
