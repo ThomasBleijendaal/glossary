@@ -10,7 +10,7 @@ public class ClientOptions
         ILogger logger)
     {
         BaseUri = baseUri;
-        Transport = new HttpPipelineTransport(httpClientFactory);
+        Transport = new HttpPipelineTransport(httpClientFactory, baseUri);
         Logger = logger;
     }
 
@@ -31,8 +31,6 @@ public class ClientOptions
     public HttpPipelineTransport Transport { get; }
 
     public ILogger Logger { get; }
-
-    public IRequestBuilder? RequestBuilder { get; set; }
 
     public bool LogRequests { get; set; }
     public bool LogResponses { get; set; }

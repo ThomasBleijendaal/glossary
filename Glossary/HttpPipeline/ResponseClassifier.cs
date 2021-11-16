@@ -6,7 +6,7 @@ namespace HttpPipeline;
 public class ResponseClassifier
 {
     public virtual bool IsRetriableResponse(HttpMessage message) 
-        => RetriableStatusCode(message.Response.HttpResponseMessage.StatusCode);
+        => RetriableStatusCode(message.Response.HttpResponseMessage?.StatusCode);
 
     public virtual bool IsRetriableException(Exception ex)
         => ex is IOException || (ex is HttpRequestException httpRequestException && RetriableStatusCode(httpRequestException.StatusCode));

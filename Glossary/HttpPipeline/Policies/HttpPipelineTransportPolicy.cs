@@ -13,12 +13,6 @@ internal class HttpPipelineTransportPolicy : IHttpPipelinePolicy
 
     public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
     {
-        var request = message.Request.GetHttpRequestMessage();
-
-        var httpClient = _httpPipelineTransport.CreateClient();
-
-        var response = await httpClient.SendAsync(request);
-
-        message.Response = new Response(response);
+        message.Response = await _httpPipelineTransport.SendAsync(message);
     }
 }

@@ -39,7 +39,7 @@ public class HttpPipelineBuilder
         policies.Add(new HttpPipelineTransportPolicy(options.Transport));
 
         return new HttpPipeline(
-            options.RequestBuilder ?? new RequestBuilder(options.BaseUri), 
+            options.Transport, 
             policies.ToArray());
 
         void AddPolicies(HttpPipelinePosition position)

@@ -11,23 +11,27 @@
  * allow further policies to do their thing, and modify the response if needed. It's even possible
  * to short-circuit the pipeline when some condition is met.
  * 
+ * [HttpPipeline]
+ *  |
+ *  | Sends message to policy stack
+ *  |
+ *  V
  * [Policy A]
  * - ProcessAsync
- *   - modifies request
+ *   - modifies request (optionally)
  *   - calls next() -----> [PolicyB]
  *     |                   - ProcessAsync
- *     |                     - modifies request
+ *     |                     - modifies request (optionally)
  *     |                     - calls next() ---------> [HttpPipelineTransportPolicy]
  *     |                       |                       - ProcessAsync
- *     |                       |                         - calls HttpPipelineTransport.CreateClient()
- *     |                       |                         - calls HttpClient.SendAsync()
+ *     |                       |                         - calls HttpPipelineTransport.SendAsync()
  *     |                       |                         - sets response on HttpMessage
  *     |                       |<------------------------- returns
  *     |                       V
- *     |                     - modifies response
+ *     |                     - modifies response (optionally)
  *     |---------------------- returns
  *     V
- *   - modifies response
+ *   - modifies response (optionally)
  *   - returns
  * 
  */
@@ -38,20 +42,20 @@ namespace HttpPipeline;
 
 internal class HttpPipeline : IHttpPipeline
 {
-    private readonly IRequestBuilder _requestBuilder;
+    private readonly HttpPipelineTransport _httpPipelineTransport;
     private readonly ReadOnlyMemory<IHttpPipelinePolicy> _policies;
 
     internal HttpPipeline(
-        IRequestBuilder requestBuilder,
+        HttpPipelineTransport httpPipelineTransport,
         IHttpPipelinePolicy[] policies)
     {
-        _requestBuilder = requestBuilder;
+        _httpPipelineTransport = httpPipelineTransport;
         _policies = policies;
     }
 
     public async Task<Response> SendAsync(Request request)
     {
-        var message = _requestBuilder.CreateMessage(request);
+        var message = _httpPipelineTransport.CreateMessage(request);
         await IHttpPipelinePolicy.ProcessNextAsync(message, _policies);
         return message.Response;
     }
@@ -59,15 +63,15 @@ internal class HttpPipeline : IHttpPipeline
     public async Task<Response<TResponseModel>> SendAsync<TResponseModel>(Request<TResponseModel> request)
         where TResponseModel : class
     {
-        var message = _requestBuilder.CreateMessage(request);
+        var message = _httpPipelineTransport.CreateMessage(request);
         await IHttpPipelinePolicy.ProcessNextAsync(message, _policies);
         return new Response<TResponseModel>(message.Response);
     }
 
     public Request CreateRequest(HttpMethod method, string requestUri)
-        => _requestBuilder.CreateRequest(method, requestUri);
+        => _httpPipelineTransport.CreateRequest(method, requestUri);
 
     public Request<TResponseModel> CreateRequest<TResponseModel>(HttpMethod method, string requestUri)
         where TResponseModel : class
-            => _requestBuilder.CreateRequest<TResponseModel>(method, requestUri);
+            => _httpPipelineTransport.CreateRequest<TResponseModel>(method, requestUri);
 }
