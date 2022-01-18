@@ -1,31 +1,37 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using HttpPipeline;
 using HttpPipeline.Messages;
 using Microsoft.AspNetCore.Http;
 
-namespace ObserverableFunctionApp
+namespace ObserverableFunctionApp;
+
+/// <summary>
+/// Makes it easy to send the trace to other services for tracing requests.
+/// </summary>
+public class TraceIdentifierPolicy : IHttpPipelinePolicy
 {
-    /// <summary>
-    /// Makes it easy to send the trace to other services for tracing requests.
-    /// </summary>
-    public class TraceIdentifierPolicy : IHttpPipelinePolicy
+    public const string TraceIdentifierHeader = "X-Trace";
+
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public TraceIdentifierPolicy(
+        IHttpContextAccessor httpContextAccessor)
     {
-        public const string TraceIdentifierHeader = "X-Trace";
+        _httpContextAccessor = httpContextAccessor;
+    }
 
-        private readonly IHttpContextAccessor _httpContextAccessor;
+    public Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
+    {
+        var traceIdentifiers =
+            _httpContextAccessor.HttpContext.Request.Headers.TryGetValue(TraceIdentifierHeader, out var remoteTraceIdentifiers) &&
+            remoteTraceIdentifiers.ToArray() is string[] identifiers
+            ? identifiers.Append(_httpContextAccessor.HttpContext.TraceIdentifier)
+            : new[] { _httpContextAccessor.HttpContext.TraceIdentifier };
 
-        public TraceIdentifierPolicy(
-            IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
+        message.Request.SetHeader(TraceIdentifierHeader, string.Join(',', traceIdentifiers));
 
-        public Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
-        {
-            message.Request.SetHeader(TraceIdentifierHeader, _httpContextAccessor.HttpContext.TraceIdentifier);
-
-            return next();
-        }
+        return next();
     }
 }

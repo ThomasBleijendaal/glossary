@@ -1,5 +1,4 @@
-﻿using System;
-using GatewayExample.AuthenticatedGateway;
+﻿using GatewayExample.AuthenticatedGateway;
 using GatewayExample.PokeGateway;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

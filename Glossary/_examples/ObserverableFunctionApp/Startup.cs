@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using ObserverableFunctionApp;
 using ObserverableFunctionApp.AppTest;
+using ObserverableFunctionApp.Example;
+using ObserverableFunctionApp.Services;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -28,8 +30,9 @@ namespace ObserverableFunctionApp
             builder.Services.AddScoped<IScopedService, Service>();
             builder.Services.AddSingleton<ISingletonService, Service>();
 
-            // wrong lifetime
+            // TODO: how is this going to work with real services?
             builder.Services.AddSingleton<ISelfCheck, IffySelfCheck>();
+            builder.Services.AddSingleton<ISelfCheckService, SelfCheckService>();
         }
     }
 }
