@@ -27,4 +27,6 @@ internal class LogScopeBuilder : ILogScopeBuilder
     }
 
     public IDisposable BeginScope() => _logger.BeginScope(_data);
+
+    public IDisposable BeginScope(string message, params object?[] args) => new LogScope(_logger, _data, message, args);
 }

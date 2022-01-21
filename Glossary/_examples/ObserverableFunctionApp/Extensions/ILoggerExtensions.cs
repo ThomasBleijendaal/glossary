@@ -18,7 +18,7 @@ public static class ILoggerExtensions
             builder.AddToScope(remoteTraceIdentifier);
         }
 
-        return builder.BeginScope();
+        return builder.BeginScope("Request");
     }
 
     public static ILogScopeBuilder AddToScope<TValue>(this ILogger logger, TValue value, [CallerArgumentExpression("value")] string argumentExpression = "")

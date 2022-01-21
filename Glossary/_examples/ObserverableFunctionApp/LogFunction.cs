@@ -40,13 +40,13 @@ public class LogFunction
 
         _logger.LogInformation("Got a request!");
 
-        using (var logScope = _logger.BeginScope("Interesting {state}", 123))
+        var state = 123;
+        using (var logScope = _logger.AddToScope(state).BeginScope("Fancy level 1"))
         {
-            _logger.LogInformation("Doing something fancy");
-
             await _transientService.DoSometingAsync();
 
-            using (var deepLogScope = _logger.BeginScope("Deep {state}", "abc"))
+            var deepState = "abc";
+            using (var deepLogScope = _logger.AddToScope(deepState).BeginScope("Fancy level 2"))
             {
                 _logger.LogInformation("Doing something fancy DEEEEP");
 
