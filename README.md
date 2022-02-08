@@ -13,6 +13,7 @@
 * CommandDispatcher
 * HttpPipeline 
 * Mediator
+* MediatorCommandHandler
 * Repository
 * CQRS (+ CQRS.CommandProcessor)
 

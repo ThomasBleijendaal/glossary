@@ -73,6 +73,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GatewayExample", "GatewayEx
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GatewayExample", "_examples\GatewayExample\GatewayExample.csproj", "{4C084FA7-1015-4043-B8D4-D2B092C9A8D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatorCommandHandler", "MediatorCommandHandler\MediatorCommandHandler.csproj", "{BB1AB656-6F7C-4275-A1A3-3134AA1B871B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -191,6 +193,10 @@ Global
 		{4C084FA7-1015-4043-B8D4-D2B092C9A8D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C084FA7-1015-4043-B8D4-D2B092C9A8D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C084FA7-1015-4043-B8D4-D2B092C9A8D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB1AB656-6F7C-4275-A1A3-3134AA1B871B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB1AB656-6F7C-4275-A1A3-3134AA1B871B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB1AB656-6F7C-4275-A1A3-3134AA1B871B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB1AB656-6F7C-4275-A1A3-3134AA1B871B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
