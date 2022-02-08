@@ -57,7 +57,7 @@ namespace EFCoreQueries
 
                     Console.WriteLine(emp2.Manager == null ? "A: Manager of Employee 2 is null" : "Manager of Employee 2 is not null");
 
-                    // exibit A: what happend to manager of emp2 after this line?
+                    // exibit A: what happened to manager of emp2 after this line?
                     var emp1 = await context.Employees.FirstAsync(x => x.Id == 1);
 
                     Console.WriteLine(emp2.Manager == null ? "A: Manager of Employee 2 is null" : "Manager of Employee 2 is not null");
@@ -101,7 +101,7 @@ namespace EFCoreQueries
 
                     var emp1 = await context.Employees.FirstAsync(x => x.Id == 1);
 
-                    // exibit D-1: if Minions are not included then they can be added lateron: https://docs.microsoft.com/en-us/ef/core/querying/related-data/explicit
+                    // exibit D-1: if Minions are not included then they can be added later on: https://docs.microsoft.com/en-us/ef/core/querying/related-data/explicit
                     await context.Entry(emp1).Collection(x => x.Minions).LoadAsync();
 
                     // exibit D-2: if .UseLazyLoadingProxies() is used then a this query is added when this property is accessed

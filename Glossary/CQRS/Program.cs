@@ -1,12 +1,12 @@
 ﻿/**
 * Command and Query Responsibility Separation aims for separating getting data from storing data
 * from a data store. Because the read and write responsibilities are handled by different classes
-* and objects, the data store responsibile for giving data and storing data can also be different.
+* and objects, the data store responsible for giving data and storing data can also be different.
 * It's possible to store data in a sql server, and read data from a document store, or use EF for
 * CUD actions and use Dapper for reading, or vice versa.
 * 
 * The read repository only uses specifications to fetch data, either one entity or a list. The read repository
-* could forward these speicifications to a cache service for local caching, or a memory store nearby.
+* could forward these specifications to a cache service for local caching, or a memory store nearby.
 * 
 * The write repository supports creation, mutation and deletion. These operations are specified by the
 * service wrapping the repository, and are first posted to a command handler. That handler can either
@@ -72,8 +72,8 @@ namespace CQRS
             {
                 var blogPostId = await _blogPostService.AddBlogPostAsync("New post!", "Hello world.");
 
-                await _commentService.AddCommentAsync(blogPostId, "Comenter 1", "Nice post.");
-                await _commentService.AddCommentAsync(blogPostId, "Comenter 2", "Nice post!");
+                await _commentService.AddCommentAsync(blogPostId, "Commenter 1", "Nice post.");
+                await _commentService.AddCommentAsync(blogPostId, "Commenter 2", "Nice post!");
 
                 // this instruction will not work normally since some of these methods will try to update
                 // an entity that has changed in the mean time, failing the ETag validation

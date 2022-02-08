@@ -25,7 +25,7 @@ namespace Repository
      * 
      * Extending this repository with the specification pattern, the repository can execute complex queries and projections
      * without becoming cluttered and messy. The specifications do not depend on a specific data store, making them very
-     * unit testable. Since they exist as seperate classes, one can extend and differentiate lots of different specifications
+     * unit testable. Since they exist as separate classes, one can extend and differentiate lots of different specifications
      * while remaining DRY.
      * 
      * NOTE:
