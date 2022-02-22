@@ -6,7 +6,11 @@
 * dependent on them need to update their settings, without restarting the whole application.
 * 
 * Another way of achieving dynamic options is by using a IOptionsFactory and, based on some preconditions,
-* refresh the configuration manually, like after repetitive 401 errors from an external service.
+* refresh the configuration manually, like after a 401 error from an external service.
+* 
+* IOptionsSnapshot can be used in conjunction with options providers which regularly update,
+* like KeyVault which fetches new keys and secrets. The IOptionsSnapshot is a scoped service which only
+* caches its Value for its lifetime, which is, as it is scoped, limited.
 */
 
 using System;
@@ -49,28 +53,31 @@ namespace Options
             });
 
             services.AddOptions();
-            
+
             services.Configure<ExampleConfig>(config.GetSection(nameof(ExampleConfig)));
 
             services.AddSingleton<IMessagePoster, ServiceRequiringOptions>();
             services.AddSingleton<IMessagePoster, ServiceObservingOptions>();
+            services.AddScoped<IMessagePoster, ServiceSnapshottingOptions>();
             services.AddSingleton<IMessagePoster, ServiceUpdatingOptions>();
         }
 
         public class ConfigApp : BaseApp
         {
-            private readonly IEnumerable<IMessagePoster> _messagePosters;
+            private readonly IServiceProvider _serviceProvider;
 
-            public ConfigApp(IEnumerable<IMessagePoster> messagePosters)
+            public ConfigApp(IServiceProvider serviceProvider)
             {
-                _messagePosters = messagePosters;
+                _serviceProvider = serviceProvider;
             }
 
             public override async Task Run()
             {
                 do
                 {
-                    foreach (var poster in _messagePosters)
+                    using var scope = _serviceProvider.CreateScope();
+
+                    foreach (var poster in scope.ServiceProvider.GetRequiredService<IEnumerable<IMessagePoster>>())
                     {
                         poster.PostMessage();
                     }
