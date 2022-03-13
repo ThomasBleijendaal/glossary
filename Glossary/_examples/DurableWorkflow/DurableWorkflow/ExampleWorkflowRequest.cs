@@ -2,10 +2,10 @@
 
 namespace DurableWorkflowExample
 {
-    public class ExampleWorkflowRequest : IWorkflowRequest
+    public record ExampleWorkflowRequest(string Id) : IWorkflowRequest
     {
-        public string EntityKey => Prefix;
+        public string EntityKey => Id;
 
-        public string Prefix { get; set; }
+        public string InstanceId => $"{nameof(ExampleWorkflowRequest)}-{EntityKey}";
     }
 }

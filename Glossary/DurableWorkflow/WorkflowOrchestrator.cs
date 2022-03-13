@@ -28,7 +28,7 @@ namespace DurableWorkflow
         {
             var client = _durableClientFactory.CreateClient(new DurableClientOptions { TaskHub = "DurableTaskHub" });
 
-            return client.StartNewAsync(typeof(TWorkflow).Name, null, input);
+            return client.StartNewAsync(typeof(TWorkflow).Name, input.InstanceId, input);
         }
 
         public Task OrchestrateAsync(IDurableOrchestrationContext context)

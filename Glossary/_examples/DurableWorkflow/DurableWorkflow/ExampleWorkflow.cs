@@ -1,33 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DurableWorkflow;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+using Microsoft.Extensions.Logging;
 
 namespace DurableWorkflowExample
 {
     public class ExampleWorkflow : IWorkflow<ExampleWorkflowRequest, IExampleWorkflowEntity>
     {
+        private readonly ILogger<ExampleWorkflow> _logger;
+
+        public ExampleWorkflow(
+            ILogger<ExampleWorkflow> logger)
+        {
+            _logger = logger;
+        }
+
         public async Task OrchestrateAsync(IDurableOrchestrationContext context, ExampleWorkflowRequest init, EntityId entityId, IExampleWorkflowEntity entity)
         {
+            _logger.LogInformation("Entered orchestrator");
+
+            var logger = context.CreateReplaySafeLogger(_logger);
+
+            context.SetCustomStatus(new OrchestrationStatus(1, 3));
+
             var step1Result = await entity.Step1("1");
+
+            context.SetCustomStatus(new OrchestrationStatus(2, 3));
 
             var step2Results = new List<string>();
 
-            using (await context.LockAsync(entityId))
+            foreach (var i in Enumerable.Range(0, 3))
             {
-                foreach (var i in Enumerable.Range(0, 3))
-                {
-                    var step2Result = await entity.Step2($"2-{step1Result}-{i}");
+                var step2Result = await context.TryStepUntilSuccessful(() => entity.Step2($"2-{step1Result.Result}-{i}"));
 
-                    step2Results.Add(step2Result);
-                }
+                step2Results.Add(step2Result);
             }
 
-            var finalResult = await entity.Step3($"3-{string.Join(",", step2Results)}");
+            context.SetCustomStatus(new OrchestrationStatus(3, 3));
 
-            Console.WriteLine(finalResult);
+            using (await context.LockAsync(entityId))
+            {
+                await entity.Step3($"3-{string.Join(",", step2Results)}");
+            }
+
+            logger.LogInformation("DONE");
         }
     }
 }

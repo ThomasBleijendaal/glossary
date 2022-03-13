@@ -5,8 +5,8 @@ namespace DurableWorkflowExample
 {
     public interface IExampleWorkflowEntity : IWorkflowEntity
     {
-        Task<string> Step1(string step);
-        Task<string> Step2(string step);
-        Task<string> Step3(string step);
+        Task<StepResult<string>> Step1(string step);
+        Task<StepResult<string>> Step2(string step);
+        Task<StepResult<int>> Step3(string step);
     }
 }
