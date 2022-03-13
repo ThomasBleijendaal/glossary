@@ -1,5 +1,4 @@
-﻿using DurableWorkflowExample;
-using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+﻿using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
 
 namespace DurableWorkflowExample;
@@ -20,6 +19,8 @@ public class ExampleWorkflow : IWorkflow<ExampleWorkflowRequest, IExampleWorkflo
 
         context.SetCustomStatus(new OrchestrationStatus(1, 3));
 
+        logger.LogInformation("Starting step 1");
+
         var step1Result = await entity.Step1("1");
 
         context.SetCustomStatus(new OrchestrationStatus(2, 3));
@@ -28,6 +29,8 @@ public class ExampleWorkflow : IWorkflow<ExampleWorkflowRequest, IExampleWorkflo
 
         foreach (var i in Enumerable.Range(0, 3))
         {
+            logger.LogInformation("Starting step 2 {i}", i);
+
             var step2Result = await context.TryStepUntilSuccessful(() => entity.Step2($"2-{step1Result.Result}-{i}"));
 
             step2Results.Add(step2Result);
@@ -37,6 +40,8 @@ public class ExampleWorkflow : IWorkflow<ExampleWorkflowRequest, IExampleWorkflo
 
         using (await context.LockAsync(entityId))
         {
+            logger.LogInformation("Starting step 3");
+
             await entity.Step3($"3-{string.Join(",", step2Results)}");
         }
 
