@@ -13,17 +13,17 @@ public class ExampleWorkflow : IWorkflow<ExampleWorkflowRequest, IExampleWorkflo
         _logger = logger;
     }
 
-    public async Task OrchestrateAsync(IDurableOrchestrationContext context, ExampleWorkflowRequest init, EntityId entityId, IExampleWorkflowEntity entity)
+    public async Task OrchestrateAsync(
+        IDurableOrchestrationContext context, 
+        ExampleWorkflowRequest init, 
+        EntityId entityId, 
+        IExampleWorkflowEntity entity)
     {
         var logger = context.CreateReplaySafeLogger(_logger);
-
-        context.SetCustomStatus(new OrchestrationStatus(1, 3));
 
         logger.LogInformation("Starting step 1");
 
         var step1Result = await entity.Step1("1");
-
-        context.SetCustomStatus(new OrchestrationStatus(2, 3));
 
         var step2Results = new List<string>();
 
@@ -35,8 +35,6 @@ public class ExampleWorkflow : IWorkflow<ExampleWorkflowRequest, IExampleWorkflo
 
             step2Results.Add(step2Result);
         }
-
-        context.SetCustomStatus(new OrchestrationStatus(3, 3));
 
         using (await context.LockAsync(entityId))
         {

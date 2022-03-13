@@ -1,6 +1,4 @@
-﻿using DurableWorkflowExample;
-
-namespace DurableWorkflowExample;
+﻿namespace DurableWorkflowExample;
 
 public class Service : IService
 {
