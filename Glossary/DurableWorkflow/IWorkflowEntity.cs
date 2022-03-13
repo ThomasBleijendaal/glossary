@@ -1,6 +1,5 @@
-﻿namespace DurableWorkflow
+﻿namespace DurableWorkflowExample;
+
+public interface IWorkflowEntity
 {
-    public interface IWorkflowEntity
-    {
-    }
 }

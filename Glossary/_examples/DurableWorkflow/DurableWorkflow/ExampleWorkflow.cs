@@ -1,51 +1,45 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DurableWorkflow;
+﻿using DurableWorkflowExample;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
 
-namespace DurableWorkflowExample
+namespace DurableWorkflowExample;
+
+public class ExampleWorkflow : IWorkflow<ExampleWorkflowRequest, IExampleWorkflowEntity>
 {
-    public class ExampleWorkflow : IWorkflow<ExampleWorkflowRequest, IExampleWorkflowEntity>
+    private readonly ILogger<ExampleWorkflow> _logger;
+
+    public ExampleWorkflow(
+        ILogger<ExampleWorkflow> logger)
     {
-        private readonly ILogger<ExampleWorkflow> _logger;
+        _logger = logger;
+    }
 
-        public ExampleWorkflow(
-            ILogger<ExampleWorkflow> logger)
+    public async Task OrchestrateAsync(IDurableOrchestrationContext context, ExampleWorkflowRequest init, EntityId entityId, IExampleWorkflowEntity entity)
+    {
+        var logger = context.CreateReplaySafeLogger(_logger);
+
+        context.SetCustomStatus(new OrchestrationStatus(1, 3));
+
+        var step1Result = await entity.Step1("1");
+
+        context.SetCustomStatus(new OrchestrationStatus(2, 3));
+
+        var step2Results = new List<string>();
+
+        foreach (var i in Enumerable.Range(0, 3))
         {
-            _logger = logger;
+            var step2Result = await context.TryStepUntilSuccessful(() => entity.Step2($"2-{step1Result.Result}-{i}"));
+
+            step2Results.Add(step2Result);
         }
 
-        public async Task OrchestrateAsync(IDurableOrchestrationContext context, ExampleWorkflowRequest init, EntityId entityId, IExampleWorkflowEntity entity)
+        context.SetCustomStatus(new OrchestrationStatus(3, 3));
+
+        using (await context.LockAsync(entityId))
         {
-            _logger.LogInformation("Entered orchestrator");
-
-            var logger = context.CreateReplaySafeLogger(_logger);
-
-            context.SetCustomStatus(new OrchestrationStatus(1, 3));
-
-            var step1Result = await entity.Step1("1");
-
-            context.SetCustomStatus(new OrchestrationStatus(2, 3));
-
-            var step2Results = new List<string>();
-
-            foreach (var i in Enumerable.Range(0, 3))
-            {
-                var step2Result = await context.TryStepUntilSuccessful(() => entity.Step2($"2-{step1Result.Result}-{i}"));
-
-                step2Results.Add(step2Result);
-            }
-
-            context.SetCustomStatus(new OrchestrationStatus(3, 3));
-
-            using (await context.LockAsync(entityId))
-            {
-                await entity.Step3($"3-{string.Join(",", step2Results)}");
-            }
-
-            logger.LogInformation("DONE");
+            await entity.Step3($"3-{string.Join(",", step2Results)}");
         }
+
+        logger.LogInformation("DONE");
     }
 }

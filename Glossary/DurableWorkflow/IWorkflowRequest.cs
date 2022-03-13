@@ -1,9 +1,8 @@
-﻿namespace DurableWorkflow
-{
-    public interface IWorkflowRequest
-    {
-        public string EntityKey { get; }
+﻿namespace DurableWorkflowExample;
 
-        public string InstanceId { get; }
-    }
+public interface IWorkflowRequest
+{
+    public string EntityKey { get; }
+
+    public string InstanceId { get; }
 }

@@ -1,12 +1,10 @@
-﻿using System.Threading.Tasks;
-using DurableWorkflow;
+﻿using DurableWorkflowExample;
 
-namespace DurableWorkflowExample
+namespace DurableWorkflowExample;
+
+public interface IExampleWorkflowEntity : IWorkflowEntity
 {
-    public interface IExampleWorkflowEntity : IWorkflowEntity
-    {
-        Task<StepResult<string>> Step1(string step);
-        Task<StepResult<string>> Step2(string step);
-        Task<StepResult<int>> Step3(string step);
-    }
+    Task<StepResult<string>> Step1(string step);
+    Task<StepResult<string>> Step2(string step);
+    Task<StepResult<int>> Step3(string step);
 }

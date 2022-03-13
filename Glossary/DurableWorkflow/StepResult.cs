@@ -1,4 +1,3 @@
-﻿namespace DurableWorkflow
-{
-    public record StepResult<TModel>(bool CompletedSuccessfully, TModel Result);
-}
+﻿namespace DurableWorkflowExample;
+
+public record StepResult<TModel>(bool CompletedSuccessfully, TModel Result);

@@ -1,10 +1,6 @@
-﻿using System.Threading.Tasks;
-using DurableWorkflowExample;
+﻿namespace DurableWorkflowExample;
 
-namespace DurableWorkflow
+public interface IService
 {
-    public interface IService
-    {
-        Task DoSomethingAsync(ExampleWorkflowRequest request);
-    }
+    Task DoSomethingAsync(ExampleWorkflowRequest request);
 }

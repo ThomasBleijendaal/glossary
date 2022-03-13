@@ -1,7 +1,6 @@
-﻿namespace DurableWorkflow
+﻿namespace DurableWorkflowExample;
+
+public interface IWorkflowMonitor
 {
-    public interface IWorkflowMonitor
-    {
-        Task<WorkflowStatus> GetWorkflowStatusAsync(string instanceId);
-    }
+    Task<WorkflowStatus> GetWorkflowStatusAsync(string instanceId);
 }
