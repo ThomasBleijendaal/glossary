@@ -16,6 +16,7 @@
 * MediatorCommandHandler
 * Repository
 * CQRS (+ CQRS.CommandProcessor)
+* Durable workflow
 
 ## extra
 
@@ -24,3 +25,4 @@
 * EF Core CQRS
 * EF Query
 * Async Command Dispatcher
+* Durable Workflow
