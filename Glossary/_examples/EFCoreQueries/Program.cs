@@ -57,7 +57,7 @@ namespace EFCoreQueries
 
                     Console.WriteLine(emp2.Manager == null ? "A: Manager of Employee 2 is null" : "Manager of Employee 2 is not null");
 
-                    // exibit A: what happened to manager of emp2 after this line?
+                    // exhibit A: what happened to manager of emp2 after this line?
                     var emp1 = await context.Employees.FirstAsync(x => x.Id == 1);
 
                     Console.WriteLine(emp2.Manager == null ? "A: Manager of Employee 2 is null" : "Manager of Employee 2 is not null");
@@ -76,8 +76,8 @@ namespace EFCoreQueries
                     var emp1b = await context.Employees.Include(x => x.Company).AsSplitQuery().FirstAsync(x => x.Id == 1);
 
                     Console.WriteLine(emp1b.Company == null ? "B: Company of Employee 1 is null" : "Company of Employee 1 is not null");
-                    
-                    // exibit B: emp1c.Company was not included but does it have a value after this line?
+
+                    // exhibit B: emp1c.Company was not included but does it have a value after this line?
                     var emp1c = await context.Employees.FirstAsync(x => x.Id == 1);
 
                     Console.WriteLine(emp1c.Company == null ? "B: Company of Employee 1 is null" : "Company of Employee 1 is not null");
@@ -87,7 +87,7 @@ namespace EFCoreQueries
                 {
                     using var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                    // exibit C: what is the sql that is generated for this include?
+                    // exhibit C: what is the sql that is generated for this include?
                     var emps = await context.Employees.Include(x => x.Company).ToListAsync();
                     foreach (var emp in emps)
                     {
@@ -101,10 +101,10 @@ namespace EFCoreQueries
 
                     var emp1 = await context.Employees.FirstAsync(x => x.Id == 1);
 
-                    // exibit D-1: if Minions are not included then they can be added later on: https://docs.microsoft.com/en-us/ef/core/querying/related-data/explicit
+                    // exhibit D-1: if Minions are not included then they can be added later on: https://docs.microsoft.com/en-us/ef/core/querying/related-data/explicit
                     await context.Entry(emp1).Collection(x => x.Minions).LoadAsync();
 
-                    // exibit D-2: if .UseLazyLoadingProxies() is used then a this query is added when this property is accessed
+                    // exhibit D-2: if .UseLazyLoadingProxies() is used then a this query is added when this property is accessed
 
                     foreach (var minion in emp1.Minions)
                     {
