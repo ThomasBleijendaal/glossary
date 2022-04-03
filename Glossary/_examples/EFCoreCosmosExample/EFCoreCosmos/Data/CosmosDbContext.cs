@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EFCoreCosmos.Entities;
+﻿using EFCoreCosmos.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreCosmos.Data;
@@ -26,17 +21,6 @@ internal class CosmosDbContext : DbContext
             profile.HasNoDiscriminator();
 
             profile.UseETagConcurrency();
-
-            profile.OwnsMany(x => x.Things);
-        });
-
-        modelBuilder.Owned<Preference>();
-
-        modelBuilder.Entity<Preference>(preference =>
-        {
-            preference.HasDiscriminator()
-                .HasValue<StringPreference>("string")
-                .HasValue<IntegerPreference>("integer");
         });
     }
 }

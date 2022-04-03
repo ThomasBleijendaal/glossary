@@ -26,9 +26,9 @@ internal class ProfileService : BackgroundService
             EmailAddress = "f@f.com",
             Things =
             {
-                new StringPreference { Key = "pref1", Setting = "1" },
-                new IntegerPreference { Key = "pref2", Setting = 2 },
-                new StringPreference { Key = "pref3", Setting = "3" }
+                { "pref1", "1" },
+                { "pref2", "2" },
+                { "pref3", "3" }
             }
         });
 
