@@ -71,9 +71,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpPipeline", "HttpPipelin
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GatewayExample", "GatewayExample", "{1B4465A8-4E21-45F4-80EF-D1B48195C065}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GatewayExample", "_examples\GatewayExample\GatewayExample.csproj", "{4C084FA7-1015-4043-B8D4-D2B092C9A8D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GatewayExample", "_examples\GatewayExample\GatewayExample.csproj", "{4C084FA7-1015-4043-B8D4-D2B092C9A8D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatorCommandHandler", "MediatorCommandHandler\MediatorCommandHandler.csproj", "{BB1AB656-6F7C-4275-A1A3-3134AA1B871B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatorCommandHandler", "MediatorCommandHandler\MediatorCommandHandler.csproj", "{BB1AB656-6F7C-4275-A1A3-3134AA1B871B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageHandlerMiddleware", "MessageHandlerMiddleware\MessageHandlerMiddleware.csproj", "{6A5D9370-AB9E-4560-B084-3261A5D0A79C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -197,6 +199,10 @@ Global
 		{BB1AB656-6F7C-4275-A1A3-3134AA1B871B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB1AB656-6F7C-4275-A1A3-3134AA1B871B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB1AB656-6F7C-4275-A1A3-3134AA1B871B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A5D9370-AB9E-4560-B084-3261A5D0A79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A5D9370-AB9E-4560-B084-3261A5D0A79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A5D9370-AB9E-4560-B084-3261A5D0A79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A5D9370-AB9E-4560-B084-3261A5D0A79C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
