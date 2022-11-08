@@ -12,6 +12,8 @@
 * Pipeline
 * CommandDispatcher
 * HttpPipeline 
+* MessageHandlerMiddleware
+* Polly
 * Mediator
 * MediatorCommandHandler
 * Repository
