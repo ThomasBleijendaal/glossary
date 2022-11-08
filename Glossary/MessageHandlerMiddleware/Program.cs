@@ -4,6 +4,9 @@
  * This example shows how to extend the HttpClientHandler to accept an array of policies, so that
  * it is still possible to compose a series of policies, but the middleware is now packaged inside
  * a perfectly normal HttpClient.
+ * 
+ * This implementation shows the concept, one should use https://github.com/App-vNext/Polly when
+ * implementing it for real code.
  */
 
 using System.Text;
