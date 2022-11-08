@@ -4,7 +4,7 @@ namespace HttpPipeline.Policies;
 
 internal class EnsureSuccessStatusCodePolicy : IHttpPipelinePolicy
 {
-    public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
+    public async Task ProcessAsync(HttpMessage message, NextPolicy next)
     {
         await next();
         
