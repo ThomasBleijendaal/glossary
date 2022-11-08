@@ -11,7 +11,7 @@ public abstract class BearerTokenPolicy : IHttpPipelinePolicy
         _tokenCache = new BearerTokenCache(GetBearerTokenAsync);
     }
 
-    public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
+    public async Task ProcessAsync(HttpMessage message, NextPolicy next)
     {
         message.Request.SetHeader("Authorization", $"Bearer {await _tokenCache.GetTokenAsync(GetScope(message))}");
         await next();

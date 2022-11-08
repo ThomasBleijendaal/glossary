@@ -15,7 +15,7 @@ internal class RetryPolicy : IHttpPipelinePolicy
         _options = options;
     }
 
-    public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
+    public async Task ProcessAsync(HttpMessage message, NextPolicy next)
     {
         var attempt = 0;
         List<Exception>? exceptions = null;

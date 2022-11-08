@@ -15,7 +15,7 @@ internal class ResponseMemoryCachePolicy : IHttpPipelinePolicy
         _memoryCache = memoryCache;
     }
 
-    public async Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
+    public async Task ProcessAsync(HttpMessage message, NextPolicy next)
     {
         if (_memoryCache.TryGetValue(CacheKey(message.Request), out var value) &&
             value is not null &&

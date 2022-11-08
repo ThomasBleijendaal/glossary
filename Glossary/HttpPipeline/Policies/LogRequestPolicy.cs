@@ -12,7 +12,7 @@ internal class LogRequestPolicy : IHttpPipelinePolicy
         _logger = logger;
     }
 
-    public Task ProcessAsync(HttpMessage message, ReadOnlyMemory<IHttpPipelinePolicy> pipeline, NextPolicy next)
+    public Task ProcessAsync(HttpMessage message, NextPolicy next)
     {
         // it is important to redact any PII here in real world scenarios
 
